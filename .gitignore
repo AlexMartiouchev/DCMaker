@@ -31,7 +31,7 @@ htmlcov/
 .ipynb_checkpoints
 
 # Environments
-.env
+.venv
 
 # Database
 *.sqlite3

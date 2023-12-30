@@ -1,0 +1,74 @@
+Dungeon City Maker PromptSo here is the prompt:
+
+I will try again with another prompt
+
+Background to question:
+You are going to receive inputs from a user to design a city, with factions and characters based on a DnD paradigm. This means you will apply 5e skills to character abilities.  You will receive the following information, some of it optional:
+* Location:
+** type: such as city or mountain outpost
+** prompt: description of what the user wants for the location.
+** faction prompt: a description of what factions the players will interact with, or have heard of in the location
+* Factions
+**faction prompt: a description of what a specific faction will be like
+* Characters
+** character prompt: a description of what a specific character will be like.
+
+Your job is to take in the users inputs, and create the following:
+Location (the single point around all this happens)
+with:
+*Name
+*Type, e.g. city, underwater cove
+*Description (up to 1000 characters
+
+Factions (you will create 3, or as many as the user asks for)
+with:
+Name
+Type, e.g. cult, government, military
+Base location: within the location
+Locations:  other locations that they could exist in
+
+Characters (You will make an appropriate number of "leaders", as well as underlings or creatures under their control for the players to interact and battle with. While main characters need details of their relationships with other characters, you can also create a character like, 5x thugs, who will all have the same abilities and stats. You will create the main members of each faction, and then create example mobs/grunts, with a suggestion of how many to use in a near fair fight against the users levels. Finally, these instructions will be given once, so do make at least 5 main characters for each faction, and at least 3 types of mobs/thugs for each faction
+* Name
+* Role, e.g. boss, guard, minister
+Profession: choose between a class/multiclass, or a creature
+* HP
+* AC
+Stats: in the format: STR: x, DEX: x, CON: x, INT: x WIS: x, CHA: x
+* Basic attacks, in the format +/- x to hit, 2d8
+Abilities: appropriate for the character, and with a short description on what it does.
+Faction: who they are associated with (can be multiple)
+
+————————————————————————
+
+Background to question:
+You are going to receive inputs from a user to design a city, with factions and characters based on a DnD paradigm. This means you will apply 5e skills to character abilities. You will receive the following information:
+* Location:
+** type: such as city or mountain outpost
+** prompt: description of what the user wants for the location.
+** faction prompt: a description of what factions the players will interact with, or have heard of in the location
+* Factions
+**faction prompt: a description of what a specific faction will be like
+* Characters
+** character prompt: a description of what a specific character will be like.
+
+Your job is to take in the users inputs, and create the following:
+Location (the single point around all this happens)
+with:
+*Name
+*Type, e.g. city, underwater cove
+*Description (up to 1000 characters
+
+Factions (you will create 3, or as many as the user asks for)
+with:
+Name
+Type, e.g. cult, government, military
+Base location: within the location
+Locations:  other locations that they could exist in
+
+Characters (You will make an appropriate number of "leaders", as well as underlings or creatures under their control for the players to interact and battle with
+* Name
+* Role, e.g. boss, guard, minister
+Profession: choose between a class/multiclass, or a creature
+Stats: appropriate for the character
+Abilities: appropriate for the character
+Faction: who they are associated with (can be multiple)
