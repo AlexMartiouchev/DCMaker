@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    {% load static %}
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{% static 'css/styles.css' %}">
+    <title>Data Input</title>
+</head>
+
+<body>
+    <div class="container">
+        <h2>Lore maker</h2>
+
+        <!-- Start of the form -->
+        <form action="/api/lore-maker/" method="post">
+            {% csrf_token %}
+            <div class="section" id="locationSection">
+                <h3>Location</h3>
+                <div class="input-group">
+                    <label for="locationType">Type:</label>
+                    <input type="text" id="locationType" name="locationType">
+                </div>
+                <div class="input-group">
+                    <label for="locationPrompt">Prompt:</label>
+                    <textarea id="locationPrompt" name="locationPrompt"></textarea>
+                </div>
+                <div class="input-group">
+                    <label for="locationFaction">Factions prompt:</label>
+                    <input type="text" id="locationFaction" name="locationFaction">
+                </div>
+            </div>
+
+            <!-- Factions will be appended here -->
+            <div id="factionsContainer"></div>
+
+            <!-- Button to add Characters -->
+            <div class="button-container">
+                <button class="add-button" id="addFactionBtn" type="button">+ Faction</button>
+            </div>
+            
+            <!-- Characters will be appended here -->
+            <div id="charactersContainer"></div>
+
+            <!-- Button to add Characters -->
+            <div class="button-container">
+                <button class="add-button" id="addCharacterBtn" type="button">+ Characters</button>
+            </div>
+
+            <!-- Submit button -->
+            <div class="button-container">
+                <button class="submit-button" type="submit">Submit</button>
+            </div>
+        </form> <!-- End of the form -->
+
+    </div>
+
+    <script src="{% static 'js/populator.js' %}"></script>
+</body>
+
+</html>

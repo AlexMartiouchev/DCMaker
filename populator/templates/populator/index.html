@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    {% load static %}
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{% static 'css/your_file_name.css' %}">
+    <title>Login Page</title>
+</head>
+
+<body>
+    <div class="login-container">
+        <form id="loginForm">
+            <label for="username">Username:</label>
+            <input type="text" id="username" name="username">
+            
+            <label for="password">Password:</label>
+            <input type="password" id="password" name="password">
+            
+            <input type="submit" value="Login">
+        </form>
+    </div>
+
+    <script src="{% static 'js/your_file_name.js' %}"></script>
+</body>
+
+</html>
