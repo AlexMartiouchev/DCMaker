@@ -1,11 +1,11 @@
 import json
+from populator.apps import PopulatorConfig
 from django.shortcuts import render
 
 from django.http import JsonResponse
 
 
 def lore_maker_endpoint(request):
-    print(request.POST)
     if request.method == "POST":
         structured_data = {
             "location_fields": {
@@ -33,6 +33,8 @@ def lore_maker_endpoint(request):
                 "characterFactions": character_factions[index],
                 "characterPrompt": character_prompts[index],
             }
+        print(structured_data)
+        
+        prompt = PopulatorConfig.prompt_template
 
-        # Return your JsonResponse or whatever response you want
         return JsonResponse(structured_data)

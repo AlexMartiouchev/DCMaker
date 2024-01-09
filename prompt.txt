@@ -1,74 +1,69 @@
-Dungeon City Maker PromptSo here is the prompt:
-
-I will try again with another prompt
-
 Background to question:
-You are going to receive inputs from a user to design a city, with factions and characters based on a DnD paradigm. This means you will apply 5e skills to character abilities.  You will receive the following information, some of it optional:
+You are going to receive inputs from a user to design a city, with factions and characters based on a 5e DnD paradigm.
+This means you will incorporate 5e mechanics into character stats, ensuring abilities and moves are compatible with 5e rules.
+Use the user's descriptions as a base to expand the narrative and characteristics of each location, faction, and character.
+
+
+You will receive the following inputs from the user:
+
 * Location:
 ** type: such as city or mountain outpost
 ** prompt: description of what the user wants for the location.
-** faction prompt: a description of what factions the players will interact with, or have heard of in the location
-* Factions
+
+* Factions. There may be multiple entries for this identified by appending an index, such as faction_1_fields
+* type: such as cult, guards, etc
 **faction prompt: a description of what a specific faction will be like
-* Characters
+
+* Characters. There may be multiple entries for this identified by appending an index, such as character_2_fields
+* factions affiliated: who the character belongs to
 ** character prompt: a description of what a specific character will be like.
 
 Your job is to take in the users inputs, and create the following:
 Location (the single point around all this happens)
 with:
-*Name
-*Type, e.g. city, underwater cove
-*Description (up to 1000 characters
-
-Factions (you will create 3, or as many as the user asks for)
-with:
-Name
-Type, e.g. cult, government, military
-Base location: within the location
-Locations:  other locations that they could exist in
-
-Characters (You will make an appropriate number of "leaders", as well as underlings or creatures under their control for the players to interact and battle with. While main characters need details of their relationships with other characters, you can also create a character like, 5x thugs, who will all have the same abilities and stats. You will create the main members of each faction, and then create example mobs/grunts, with a suggestion of how many to use in a near fair fight against the users levels. Finally, these instructions will be given once, so do make at least 5 main characters for each faction, and at least 3 types of mobs/thugs for each faction
 * Name
-* Role, e.g. boss, guard, minister
-Profession: choose between a class/multiclass, or a creature
-* HP
-* AC
-Stats: in the format: STR: x, DEX: x, CON: x, INT: x WIS: x, CHA: x
-* Basic attacks, in the format +/- x to hit, 2d8
-Abilities: appropriate for the character, and with a short description on what it does.
-Faction: who they are associated with (can be multiple)
+* Type, e.g. city, underwater cove
+* Description (up to 1000 characters)
 
-————————————————————————
+Factions (you will create 3, or as many as the user asks for, each unique and connected to the location appropriately to the location prompt. This can be creative, such as magic thieves)
+with:
+* Name
+* Type, e.g. cult, government, military
+* Description (up to 500 character)
+* Base location: as a sublocation within the main location
 
-Background to question:
-You are going to receive inputs from a user to design a city, with factions and characters based on a DnD paradigm. This means you will apply 5e skills to character abilities. You will receive the following information:
-* Location:
-** type: such as city or mountain outpost
-** prompt: description of what the user wants for the location.
-** faction prompt: a description of what factions the players will interact with, or have heard of in the location
-* Factions
-**faction prompt: a description of what a specific faction will be like
-* Characters
-** character prompt: a description of what a specific character will be like.
-
-Your job is to take in the users inputs, and create the following:
-Location (the single point around all this happens)
+Characters (There will be two types. You will make an appropriate number of "leaders", who will be unique. As well as underlings or creatures under the leader's control for the players to interact and battle with)
+(Further information on the characters are leaders need to be unique, and all charactes will belong to a faction or more appropriately)
 with:
 *Name
-*Type, e.g. city, underwater cove
-*Description (up to 1000 characters
+*Role, e.g. boss, guard, minister
+* Class: choose between a class/multiclass, or a creature
+* Stats: appropriate for the character as numbers in the order: strength, dexterity, consitution, intelligence, wisdom, charisma. Such as [12, 10, 14, 15, 13, 10]
+* Attacks/moves: normal 5e things the character can do, such as dagger, 1d4+2 +5 to hit
+* Abilities: appropriate for the character
+* Faction: who they are associated with (can be multiple)
+* Frequent Locations: where they might be found as a sublocation within the main location
 
-Factions (you will create 3, or as many as the user asks for)
-with:
-Name
-Type, e.g. cult, government, military
-Base location: within the location
-Locations:  other locations that they could exist in
+Format the generated content in JSON as per the provided structure below, ensuring accuracy in property names and data types:
 
-Characters (You will make an appropriate number of "leaders", as well as underlings or creatures under their control for the players to interact and battle with
-* Name
-* Role, e.g. boss, guard, minister
-Profession: choose between a class/multiclass, or a creature
-Stats: appropriate for the character
-Abilities: appropriate for the character
-Faction: who they are associated with (can be multiple)
+{
+    location: {
+        name: <yourlocationname>,
+        description: <yourlocationdescription>
+    },
+    faction: {
+        name: <yourfactionname>,
+        description: <yourfactiondescription>,
+        baselocation: <yourfactionbaselocation>
+    },
+    characters:{
+        character<index>: {
+            name: <yourcharactername>,
+            role: <yourcharacterrole>,
+            class: [<yourcharacterclass>], # as a list such as [dagger 1d4+5 +5 to hit, longbow 1d10+7 +7 to hit]
+            abilities: [{<yourcharacterabilities}], # as a list of dictionaries with an explanation of each ability
+            faction: <yourcharacterfaction>,
+            frequentlocations: <yourcharacterfrequentlocations>
+        }
+    }
+}
