@@ -1,29 +1,26 @@
+import json
 from django.shortcuts import render
 
 from django.http import JsonResponse
 
 
 def lore_maker_endpoint(request):
+    print(request.POST)
     if request.method == "POST":
         structured_data = {
             "location_fields": {
                 "locationType": request.POST.getlist("locationType"),
                 "locationPrompt": request.POST.getlist("locationPrompt"),
             },
-            "locationFaction": request.POST.getlist("locationFaction"),
         }
 
         # Process factions
         faction_types = request.POST.getlist("factionType")
-        faction_member_counts = request.POST.getlist("factionMemberCount")
-        faction_alliances = request.POST.getlist("factionAlliances")
         faction_prompts = request.POST.getlist("factionPrompt")
 
         for index in range(len(faction_types)):
             structured_data[f"faction_{index+1}_fields"] = {
                 "factionType": faction_types[index],
-                "factionMemberCount": faction_member_counts[index],
-                "factionAlliances": faction_alliances[index],
                 "factionPrompt": faction_prompts[index],
             }
 

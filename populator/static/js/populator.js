@@ -10,14 +10,6 @@ document.getElementById('addFactionBtn').addEventListener('click', function() {
             <input type="text" id="factionType" name="factionType">
         </div>
         <div class="input-group">
-            <label for="factionMemberCount">Member count:</label>
-            <input type="number" id="factionMemberCount" name="factionMemberCount">
-        </div>
-        <div class="input-group">
-            <label for="factionAlliances">Alliances:</label>
-            <input type="text" id="factionAlliances" name="factionAlliances">
-        </div>
-        <div class="input-group">
             <label for="factionPrompt">Prompt:</label>
             <textarea id="factionPrompt" name="factionPrompt"></textarea>
         </div>
