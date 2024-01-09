@@ -33,6 +33,7 @@ htmlcov/
 # Environments
 .venv
 .env
+.venv_wsl
 
 # Database
 *.sqlite3
