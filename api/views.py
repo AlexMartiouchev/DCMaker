@@ -4,6 +4,8 @@ from django.shortcuts import render
 
 from django.http import JsonResponse
 
+from populator.utils import call_openai_api
+
 
 def lore_maker_endpoint(request):
     if request.method == "POST":
@@ -33,8 +35,22 @@ def lore_maker_endpoint(request):
                 "characterFactions": character_factions[index],
                 "characterPrompt": character_prompts[index],
             }
-        print(structured_data)
         
-        prompt = PopulatorConfig.prompt_template
+        # Construct a string prompt from structured_data
+        prompt_text = PopulatorConfig.prompt_template + "\n\n"
+        prompt_text += "Location Type: " + ', '.join(request.POST.getlist("locationType")) + "\n"
+        prompt_text += "Location Description: " + ', '.join(request.POST.getlist("locationPrompt")) + "\n"
 
-        return JsonResponse(structured_data)
+        for index in range(len(faction_types)):
+            prompt_text += f"Faction {index + 1} Type: {faction_types[index]}\n"
+            prompt_text += f"Faction {index + 1} Description: {faction_prompts[index]}\n"
+
+        for index in range(len(character_factions)):
+            prompt_text += f"Character {index + 1} Factions: {character_factions[index]}\n"
+            prompt_text += f"Character {index + 1} Description: {character_prompts[index]}\n"
+
+        # Call OpenAI API
+        ai_response = call_openai_api(prompt_text)
+
+        # Return the response
+        return JsonResponse({"ai_response": ai_response})

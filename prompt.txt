@@ -67,3 +67,6 @@ Format the generated content in JSON as per the provided structure below, ensuri
         }
     }
 }
+
+The users input will be below in json Format
+
