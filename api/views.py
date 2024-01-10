@@ -1,6 +1,5 @@
 import json
 from populator.apps import PopulatorConfig
-from django.shortcuts import render
 
 from django.http import JsonResponse
 
@@ -36,21 +35,35 @@ def lore_maker_endpoint(request):
                 "characterPrompt": character_prompts[index],
             }
         
-        # Construct a string prompt from structured_data
-        prompt_text = PopulatorConfig.prompt_template + "\n\n"
-        prompt_text += "Location Type: " + ', '.join(request.POST.getlist("locationType")) + "\n"
-        prompt_text += "Location Description: " + ', '.join(request.POST.getlist("locationPrompt")) + "\n"
+        # Send fields for location, receiving response as a full description and a summary
+        location_prompt_text = PopulatorConfig.location_prompt + "\n\n"
+        location_prompt_text += "Location Type: " + ', '.join(request.POST.getlist("locationType")) + "\n"
+        location_prompt_text += "Location Description: " + ', '.join(request.POST.getlist("locationPrompt")) + "\n"
 
+        location_response = call_openai_api(location_prompt_text)
+        location_summary = location_response["summary"]
+
+        # send fields for factions, as well as a summary of location, receiving response as a full description and summary
+        faction_prompt_text = PopulatorConfig.faction_prompt + "\n"
+        faction_prompt_text += location_summary + "\n\n"
         for index in range(len(faction_types)):
-            prompt_text += f"Faction {index + 1} Type: {faction_types[index]}\n"
-            prompt_text += f"Faction {index + 1} Description: {faction_prompts[index]}\n"
+            faction_prompt_text += f"Faction {index + 1} Type: {faction_types[index]}\n"
+            faction_prompt_text += f"Faction {index + 1} Description: {faction_prompts[index]}\n"
 
+        faction_response = call_openai_api(faction_prompt_text)
+        faction_summary = faction_response["summary"]
+
+        # send fields for factions, as well as a summary of location, receiving response as a full description and summary
+        character_prompt_text = PopulatorConfig.character_prompt + "\n"
+        character_prompt_text += location_summary + "\n"
+        character_prompt_text += faction_summary + "\n\n"
         for index in range(len(character_factions)):
-            prompt_text += f"Character {index + 1} Factions: {character_factions[index]}\n"
-            prompt_text += f"Character {index + 1} Description: {character_prompts[index]}\n"
-
-        # Call OpenAI API
-        ai_response = call_openai_api(prompt_text)
+            character_prompt_text += f"Character {index + 1} Factions: {character_factions[index]}\n"
+            character_prompt_text += f"Character {index + 1} Description: {character_prompts[index]}\n"
+        
+        character_response = call_openai_api(character_prompt_text)
 
         # Return the response
-        return JsonResponse({"ai_response": ai_response})
+        return JsonResponse({{"location_response": location_response},
+                            {"faction_response": faction_response},
+                            {"character_response": character_response}})

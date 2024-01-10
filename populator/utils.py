@@ -9,7 +9,7 @@ def call_openai_api(prompt_text):
         response = client.completions.create(
             model="gpt-3.5-turbo-instruct",  # Update the model name as per the new API
             prompt=prompt_text,
-            max_tokens=150
+            max_tokens=1000
         )
         return response.choices[0].text.strip()
     except Exception as e:
