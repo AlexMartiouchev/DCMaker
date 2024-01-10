@@ -9,10 +9,10 @@ class PopulatorConfig(AppConfig):
     character_prompt = ""
 
     def ready(self):
-        with open('location_prompt.txt', 'r') as file:
+        with open('prompts/location_prompt.txt', 'r') as file:
             PopulatorConfig.location_prompt = file.read()
-        with open('faction_prompt.txt', 'r') as file:
+        with open('prompts/faction_prompt.txt', 'r') as file:
             PopulatorConfig.faction_prompt = file.read()
-        with open('character_prompt.txt', 'r') as file:
+        with open('prompts/character_prompt.txt', 'r') as file:
             PopulatorConfig.character_prompt = file.read()
 
