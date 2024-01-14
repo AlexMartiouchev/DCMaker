@@ -3,7 +3,7 @@ from populator.apps import PopulatorConfig
 
 from django.http import JsonResponse
 
-from populator.utils import call_openai_api, parse_location_response
+from populator.utils import call_openai_api, find_highest_faction_number, parse_location_response, parse_faction_response
 
 
 def lore_maker_endpoint(request):
@@ -51,10 +51,15 @@ def lore_maker_endpoint(request):
         while attempts < max_attempts:
             try:
                 location_name, detailed_scenario, location_summary = parse_location_response(location_response)
+                location_data = {
+                    "location_name": location_name,
+                    "detailed_scenario": detailed_scenario,
+                    "location_summary": location_summary
+                }
                 break  # Exit the loop if parsing is successful
             except ValueError:
                 print("Parsing attempt", attempts + 1, "failed.")
-                print("Response:", location_response)  # Logging the response for debugging
+                print("Response:\n" + location_response)  # Logging the response for debugging
                 attempts += 1
 
         # Check if parsing was successful
@@ -65,12 +70,44 @@ def lore_maker_endpoint(request):
         # send fields for factions, as well as a summary of location, receiving response as a full description and summary
         faction_prompt_text = PopulatorConfig.faction_prompt + "\n"
         faction_prompt_text += location_summary + "\n\n"
-        for index in range(len(faction_types)):
-            faction_prompt_text += f"Faction {index + 1} Type: {faction_types[index]}\n"
-            faction_prompt_text += f"Faction {index + 1} Description: {faction_prompts[index]}\n"
+        if len(faction_types) >0:
+            faction_prompt_text += "Below here are the user inputs:" + "\n\n"
+            for index in range(len(faction_types)):
+                faction_prompt_text += f"Faction {index + 1} Type: {faction_types[index]}\n"
+                faction_prompt_text += f"Faction {index + 1} Description: {faction_prompts[index]}\n"
+        else:
+            faction_prompt_text += "The user has not inputted any faction specific information, instead imaginatively expand on factions using the location summary"
+
 
         faction_response = call_openai_api(faction_prompt_text)
-        faction_summary = faction_response["summary"]
+        max_attempts = 10
+        attempts = 0
+
+        # Attempt to parse faction data
+        while attempts < max_attempts:
+            try:
+                faction_data = parse_faction_response(faction_response)
+                if faction_data:  # Check if the parsed data is not empty
+                    break  # Exit the loop if parsing is successful
+                else:
+                    raise ValueError("Parsed faction data is empty")
+            except ValueError as e:
+                print("Parsing attempt", attempts + 1, "failed:", e)
+                print("Response:\n" + faction_response)  # Logging the response for debugging
+                attempts += 1
+
+        # Check if parsing was successful
+        if not faction_data:
+            return JsonResponse({"error": "Unable to parse faction response after multiple attempts"}, status=500)
+        print(faction_data)
+
+# Continue with the rest of your logic...
+
+
+
+        # faction_response = call_openai_api(faction_prompt_text)
+        # print(faction_response)
+        # faction_summary = faction_response["summary"]
 
         # # send fields for factions, as well as a summary of location, receiving response as a full description and summary
         # character_prompt_text = PopulatorConfig.character_prompt + "\n"
