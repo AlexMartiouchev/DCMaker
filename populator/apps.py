@@ -8,6 +8,7 @@ class PopulatorConfig(AppConfig):
     faction_prompt = ""
     lead_character_prompt = ""
     mob_character_prompt = ""
+    character_sheet_prompt = ""
 
     def ready(self):
         with open('prompts/location_prompt.txt', 'r') as file:
@@ -18,4 +19,6 @@ class PopulatorConfig(AppConfig):
             PopulatorConfig.lead_character_prompt = file.read()
         with open('prompts/mob_character_prompt.txt', 'r') as file:
             PopulatorConfig.mob_character_prompt = file.read()
+        with open('prompts/character_sheet_prompt.txt', 'r') as file:
+            PopulatorConfig.character_sheet_prompt = file.read()
 
