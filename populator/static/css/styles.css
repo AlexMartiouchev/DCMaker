@@ -61,3 +61,17 @@ input, textarea {
     margin: 10px;
 }
 
+.input-group-horizontal {
+    display: flex;
+    justify-content: flex-start;
+}
+
+.input-group-horizontal .input-group {
+    flex: 0 0 auto;
+    margin-right: 10px;
+}
+
+.input-group-horizontal .input-group input {
+    width: 5ch;
+}
+
