@@ -60,3 +60,22 @@ def parse_faction_response(response_text):
         faction_data.append(faction_dict)
 
     return faction_data
+
+def parse_character_response(response_text):
+    character_pattern = r"character_(\d+)_faction: (.+?)\n" \
+                        r"character_\1_name: (.+?)\n" \
+                        r"character_\1_response: (.+?)\n" \
+                        r"character_\1_summary: (.+?)\n\n"
+    
+    characters = re.findall(character_pattern, response_text, re.DOTALL)
+    character_data = []
+    for index, faction, name, response, summary in characters:
+        character_dict = {
+            f"character_{index}_faction": faction.strip(),
+            f"character_{index}_name": name.strip(),
+            f"character_{index}_response": response.strip(),
+            f"character_{index}_summary": summary.strip()
+        }
+        character_data.append(character_dict)
+
+    return character_data

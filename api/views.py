@@ -3,7 +3,7 @@ from populator.apps import PopulatorConfig
 
 from django.http import JsonResponse
 
-from populator.utils import call_openai_api, find_highest_faction_number, parse_location_response, parse_faction_response
+from populator.utils import call_openai_api, find_highest_faction_number, parse_character_response, parse_location_response, parse_faction_response
 
 
 def lore_maker_endpoint(request):
@@ -70,7 +70,7 @@ def lore_maker_endpoint(request):
 
         # Check if parsing was successful
         if location_name is None or detailed_scenario is None or location_summary is None:
-            return JsonResponse({"error": "Unable to parse API response after multiple attempts"}, status=500)
+            return JsonResponse({"error": "Unable to parse location response after multiple attempts"}, status=500)
 
 
         # send fields for factions, as well as a summary of location, receiving response as a full description and summary
@@ -105,9 +105,42 @@ def lore_maker_endpoint(request):
         # Check if parsing was successful
         if not faction_data:
             return JsonResponse({"error": "Unable to parse faction response after multiple attempts"}, status=500)
-        print(faction_data)
 
-# Continue with the rest of your logic...
+
+        # character response will be broken into two types, lead roles and mobs
+
+        lead_character_prompt_text = PopulatorConfig.lead_character_prompt + "\n"
+        lead_character_prompt_text += location_summary + "\n"
+        lead_character_prompt_text += str(faction_data) + "\n"
+        if len(character_prompts) >0:
+            lead_character_prompt_text += "Below here are the user inputs:" + "\n\n"
+            for index in range(len(faction_types)):
+                lead_character_prompt_text += f"Character {index + 1} Faction: {character_factions[index]}\n"
+                lead_character_prompt_text += f"Character {index + 1} Description: {character_prompts[index]}\n"
+        else:
+            faction_prompt_text += "The user has not inputted any character specific information, instead imaginatively expand on characters using the faction summary"
+
+        lead_character_response = call_openai_api(lead_character_prompt_text)
+        max_attempts = 10
+        attempts = 0
+
+        # Attempt to parse faction data
+        while attempts < max_attempts:
+            try:
+                lead_character_data = parse_character_response(lead_character_response)
+                if lead_character_data:  # Check if the parsed data is not empty
+                    print(lead_character_data)
+                    break
+                else:
+                    raise ValueError("Parsed faction data is empty")
+            except ValueError as e:
+                print("Parsing attempt", attempts + 1, "failed:", e)
+                print("Response:\n" + faction_response)  # Logging the response for debugging
+                attempts += 1
+
+        # Check if parsing was successful
+        if not lead_character_data:
+            return JsonResponse({"error": "Unable to parse lead characters response after multiple attempts"}, status=500)
 
 
 
