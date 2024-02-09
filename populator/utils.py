@@ -45,37 +45,64 @@ def find_highest_faction_number(response_text):
 
 
 def parse_faction_response(response_text):
-    faction_pattern = r"faction_(\d+)_name: (.+?)\n" \
-                    r"faction_\1_response: (.+?)\n" \
-                    r"faction_\1_summary: (.+?)\n\n"
+    faction_pattern = r"(?:.*?)" \
+                    r"faction_(\d+)_name: (.*?)\n" \
+                    r"faction_\1_response: (.*?)\n" \
+                    r"faction_\1_summary: (.*?)(?:\n\n|\Z)"
     
-    factions = re.findall(faction_pattern, response_text, re.DOTALL)
-    faction_data = []
-    for index, name, response, summary in factions:
-        faction_dict = {
-            f"faction_{index}_name": name.strip(),
-            f"faction_{index}_response": response.strip(),
-            f"faction_{index}_summary": summary.strip()
+    matches = re.findall(faction_pattern, response_text, re.DOTALL)
+    faction_data = {}
+
+    for index, name, response, summary in matches:
+        faction_key = f"faction_{index}"
+        faction_details = {
+            "name": name.strip(),
+            "response": response.strip(),
+            "summary": summary.strip()
         }
-        faction_data.append(faction_dict)
+        faction_data[faction_key] = faction_details
 
     return faction_data
 
-def parse_character_response(response_text):
-    character_pattern = r"character_(\d+)_faction: (.+?)\n" \
-                        r"character_\1_name: (.+?)\n" \
-                        r"character_\1_response: (.+?)\n" \
-                        r"character_\1_summary: (.+?)\n\n"
-    
-    characters = re.findall(character_pattern, response_text, re.DOTALL)
-    character_data = []
-    for index, faction, name, response, summary in characters:
-        character_dict = {
-            f"character_{index}_faction": faction.strip(),
-            f"character_{index}_name": name.strip(),
-            f"character_{index}_response": response.strip(),
-            f"character_{index}_summary": summary.strip()
-        }
-        character_data.append(character_dict)
 
-    return character_data
+def parse_character_response(response_text):
+    # Pattern to match factions and their characters in one sweep
+    pattern = re.compile(
+        r"faction_(\d+)_name: (.+?)\n((?:character_\d+_name: .+?\n"
+        r"character_\d+_response: .+?\ncharacter_\d+_summary: .+?\n\n)+)",
+        re.DOTALL
+    )
+
+    # Pattern to extract character details within a matched faction block
+    char_detail_pattern = re.compile(
+        r"character_(\d+)_name: (.+?)\n"
+        r"character_\1_response: (.+?)\n"
+        r"character_\1_summary: (.+?)\n\n",
+        re.DOTALL
+    )
+
+    structured_response = {}
+
+    # Extract factions and associated character blocks
+    factions = pattern.findall(response_text)
+
+    for faction_index, faction_name, characters_block in factions:
+        # Extract individual character details within this faction's block
+        characters = char_detail_pattern.findall(characters_block)
+
+        # List to store structured character details
+        character_details = []
+
+        for _, char_name, char_response, char_summary in characters:
+            character_details.append({
+                "name": char_name.strip(),
+                "response": char_response.strip(),
+                "summary": char_summary.strip(),
+            })
+
+        # Assign faction name and characters to the structured response
+        structured_response[f"faction_{faction_index}_name"] = faction_name.strip()
+        structured_response[f"faction_{faction_index}_characters"] = character_details
+
+    return structured_response
+
