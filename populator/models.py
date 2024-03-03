@@ -5,7 +5,7 @@ class Location(models.Model):
     location_type = models.CharField(max_length=50)
     description = models.TextField()
     parent_location = models.ForeignKey(
-        'self',  # Self-referencing ForeignKey
+        'self',
         on_delete=models.CASCADE, 
         related_name='sublocations', 
         null=True, 
@@ -51,3 +51,9 @@ class Character(models.Model):
 
     def __str__(self):
         return self.name
+
+
+class Demo(models.Model):
+    location = models.ForeignKey(Location, on_delete=models.SET_NULL, null=True)
+    factions = models.ManyToManyField(Faction)
+    characters = models.ManyToManyField(Character)
