@@ -1,0 +1,318 @@
+[
+    {
+        "model": "populator.location",
+        "pk":1,
+        "fields": {
+            "name": "Langfeyglade",
+            "location_type": "Fairy Kingdom in Strife",
+            "description": "A once serene and hidden kingdom, known for its lush, enchanted forests and mystical creatures, is now on the brink of civil unrest. Ancient magic wanes, and factions vie for control over the remaining sources of magical power.",
+            "parent_location": null
+        }
+    },
+    {
+        "model": "populator.location",
+        "pk": 2,
+        "fields": {
+            "name": "Coralight",
+            "location_type": "Underwater City",
+            "description": "A breathtaking city beneath the waves, built from living coral and bioluminescent plants, is threatened by external invasions and internal decay. Its inhabitants, a mix of merfolk, sentient sea creatures, and adapted surface dwellers, face a future uncertain.",
+            "parent_location": null
+        }
+    },
+    {
+        "model": "populator.location",
+        "pk": 3,
+        "fields": {
+            "name": "Aetheria's Reach",
+            "location_type": "Skyborne Archipelago",
+            "description": "A series of floating islands above a seemingly endless void, connected by bridges of light and ancient magic. The islands are a haven for air elementals, sky pirates, and adventurers seeking the thrill of the unknown.",
+            "parent_location": null
+        }
+    },
+    {"///////////////////////////////////////////////////////////////////////"},
+    {
+        "model": "populator.faction",
+        "pk": 1,
+        "fields": {
+            "name": "The Thornheart Syndicate",
+            "faction_type": " Thieves' Guild",
+            "description": "An elusive and ruthless band of thieves and assassins who seek to exploit the kingdom's strife for their gain. They thrive in chaos, using the cover of unrest to steal magical artifacts and eliminate those who stand in their way."
+        }
+    },
+    {
+        "model": "populator.faction",
+        "pk": 2,
+        "fields": {
+            "name": "The Duskwood Enclave",
+            "faction_type": "Dark Druids",
+            "description": "A faction of druids who have turned to dark magic, believing that the only way to restore the kingdom is through purging it with fire and shadow. They manipulate the natural order, summoning dangerous creatures and blighting the land."
+        }
+    },
+    {
+        "model": "populator.faction",
+        "pk": 3,
+        "fields": {
+            "name": "The Silent Crown",
+            "faction_type": "Secret Society",
+            "description": "A cabal of nobles and mages who conspire to overthrow the current monarchy. Using political manipulation and dark magic, they aim to place a puppet ruler on the throne, one who will serve their interests and grant them unfettered access to the kingdom's ancient magics."
+        }
+    },
+    {
+        "model": "populator.faction",
+        "pk": 4,
+        "fields": {
+            "name": "The Gilded Merchants",
+            "faction_type": "Trade Consortium",
+            "description": "A powerful coalition of fairy merchants who control much of the kingdom's commerce. While primarily interested in profit, their influence over trade routes and supplies makes them a powerful entity that can sway the tide of conflict with their decisions."
+        }
+    },
+    {
+        "model": "populator.faction",
+        "pk": 5,
+        "fields": {
+            "name": "The Twilight Harbingers",
+            "faction_type": "Mystic Seers",
+            "description": "A group of oracles and seers who claim neutrality, offering their prophetic services to all. They believe in the inevitability of fate and see the strife as a necessary part of the kingdom's evolution, guiding those who seek their wisdom."
+        }
+    },
+    {
+        "model": "populator.faction",
+        "pk": 6,
+        "fields": {
+            "name": "The Woven Kin",
+            "faction_type": "Artisans Guild",
+            "description": "A collective of craftsmen, artists, and enchanters dedicated to preserving the kingdom's cultural heritage. They remain neutral, focusing on their craft and the belief that beauty and art can heal the rifts tearing their society apart."
+        }
+    },
+    {
+        "model": "populator.faction",
+        "pk": 7,
+        "fields": {
+            "name": "The Verdant Shield",
+            "faction_type": "Rangers",
+            "description": "A band of rangers and beastmasters who protect the kingdom's borders and wildlands. They are committed to defending the realm from external threats and aiding those displaced or harmed by the conflict."
+        }
+    },
+    {
+        "model": "populator.faction",
+        "pk": 8,
+        "fields": {
+            "name": "The Luminous Covenant",
+            "faction_type": "Paladin Order",
+            "description": "A holy order of paladins and light-wielders who fight to preserve peace and justice in the kingdom. They offer sanctuary to refugees, battle dark forces, and work to mend the rifts between conflicting factions."
+        }
+    },
+    {
+        "model": "populator.faction",
+        "pk": 9,
+        "fields": {
+            "name": "The Crystalborne Alliance",
+            "faction_type": "Mage Circle",
+            "description": "A circle of mages specializing in healing and protective magics. They focus on aiding the wounded and the weak, repairing damaged lands, and seeking peaceful resolutions to conflict. Their magic is a beacon of hope for many in these dark times."
+        }
+    },
+    {"////////////////////////////////////////////////////////////////////////////////"},
+    {
+        "model": "populator.faction",
+        "pk": 10,
+        "fields": {
+            "name": "The Abyssal Reclaimers",
+            "faction_type": "Warband",
+            "description": "A fierce group of merfolk and sea monsters who believe the city should return to the wild, untamed chaos of the deep sea. They launch raids against the city's defenses, aiming to destroy the structures that keep it safe from the abyssal pressures and darkness."
+        }
+    },
+    {
+        "model": "populator.faction",
+        "pk": 11,
+        "fields": {
+            "name": "The Kraken's Brood",
+            "faction_type": "Cult",
+            "description": "Worshippers of a legendary kraken they believe sleeps beneath Coralight, the cult seeks to awaken it to cleanse the seas of all civilizations, including their own. They perform dark rituals and sacrifices in hidden grottos, hoping to bring about their god's return."
+        }
+    },
+    {
+        "model": "populator.faction",
+        "pk": 12,
+        "fields": {
+            "name": "The Coral Bleachers",
+            "faction_type": "Pirate Gang",
+            "description": "A band of pirates and rogue sea creatures who exploit the city's resources, poisoning the waters with strange alchemical substances that bleach the coral and weaken its magical defenses. They are motivated by greed, seeking treasures and ancient artifacts hidden within the city's vaults."
+        }
+    },
+    {
+        "model": "populator.faction",
+        "pk": 13,
+        "fields": {
+            "name": "The Glimmerscale Traders",
+            "faction_type": "Merchants",
+            "description": "A network of traders and merchants dealing in rare goods, magical items, and information. They maintain neutrality, trading with anyone who can afford their prices. Their extensive network can be a valuable resource or a dangerous enemy, depending on how they are approached."
+        }
+    },
+    {
+        "model": "populator.faction",
+        "pk": 14,
+        "fields": {
+            "name": "The Tide Whisperers",
+            "faction_type": "Scholarly Order",
+            "description": "A conclave of scholars, historians, and mages dedicated to studying the mysteries of the deep and the origins of Coralight. They remain neutral in conflicts, offering knowledge and advice to those who seek it, regardless of their affiliations."
+        }
+    },
+    {
+        "model": "populator.faction",
+        "pk": 15,
+        "fields": {
+            "name": "The Deepcurrent Carvers",
+            "faction_type": "Artisans",
+            "description": "Skilled craftsmen who shape coral and undersea materials into beautiful and functional items. They are respected for their skills and neutrality, focusing on their art and the preservation of undersea cultures through their work."
+        }
+    },
+    {
+        "model": "populator.faction",
+        "pk": 16,
+        "fields": {
+            "name": "The Serene Guard",
+            "faction_type": "City Defenders",
+            "description": "The city's main defense force, comprised of merfolk, sea elves, and allied creatures, dedicated to protecting Coralight from external threats and internal sabotage. They patrol the waters, enforce the law, and help maintain the peace."
+        }
+    },
+    {
+        "model": "populator.faction",
+        "pk": 17,
+        "fields": {
+            "name": "The Pearl Sentinels",
+            "faction_type": "Healers Guild",
+            "description": "A guild of healers and clerics who harness the power of the sea to heal injuries, cure diseases, and protect against the dark magic that threatens the city. They offer their services freely to those in need, acting as a beacon of hope in troubled times."
+        }
+    },
+    {
+        "model": "populator.faction",
+        "pk": 18,
+        "fields": {
+            "name": "The Aquatic Alliance",
+            "faction_type": "Diplomatic Council",
+            "description": "A council formed by representatives of different species and factions within Coralight, working to foster unity and cooperation among the city's diverse inhabitants. They mediate disputes, negotiate treaties, and organize joint efforts to improve life in and around the city."
+        }
+    },
+    {"///////////////////////////////////////////////////////////////////////"},
+    {
+        "model": "populator.faction",
+        "pk": 19,
+        "fields": {
+            "name": "The Stormfury Raiders",
+            "faction_type": "Bandits",
+            "description": "A notorious gang of sky pirates and rogue elementals that prey on the islands and airships of Aetheria's Reach. They harness storm magic to attack and plunder, sowing fear and chaos wherever they fly."
+        }
+    },
+    {
+        "model": "populator.faction",
+        "pk": 20,
+        "fields": {
+            "name": "The Void Cult",
+            "faction_type": "Cultists",
+            "description": "A secretive cult that worships the void between the islands, believing in an ancient prophecy that foretells the end of Aetheria's Reach through its consumption by the abyss. They seek to hasten this apocalypse through dark rituals and sabotage."
+        }
+    },
+    {
+        "model": "populator.faction",
+        "pk": 21,
+        "fields": {
+            "name": "The Skybreaker Legion",
+            "faction_type": "Mercenaries",
+            "description": "A mercenary force equipped with advanced weaponry and airships, funded by unknown benefactors. They aim to conquer the archipelago and establish a new order, using their military might to subjugate the islands one by one."
+        }
+    },
+    {
+        "model": "populator.faction",
+        "pk": 22,
+        "fields": {
+            "name": "The Windborne Guild",
+            "faction_type": "Merchants",
+            "description": "An influential guild of traders and inventors who navigate the skies, dealing in rare artifacts, technology, and information. They maintain neutrality, their allegiance swaying with the wind to whoever offers the best price."
+        }
+    },
+    {
+        "model": "populator.faction",
+        "pk": 23,
+        "fields": {
+            "name": "The Celestine Scholars",
+            "faction_type": "Academics",
+            "description": "A society of scholars, mages, and researchers dedicated to uncovering the secrets of the archipelago and the magic that keeps it afloat. They are neutral, focused on their studies and willing to share knowledge with all who seek it."
+        }
+    },
+    {
+        "model": "populator.faction",
+        "pk": 24,
+        "fields": {
+            "name": "The Cloudweaver Collective",
+            "faction_type": "Artisans",
+            "description": "A community of artists, builders, and creators who specialize in crafting from the clouds themselves, shaping them into living spaces, sculptures, and vessels. They value creativity over conflict, remaining neutral and dedicated to their craft."
+        }
+    },
+    {
+        "model": "populator.faction",
+        "pk": 25,
+        "fields": {
+            "name": "The Azure Sentinels",
+            "faction_type": "Protectors",
+            "description": "A knightly order that patrols the skies, defending the archipelago's islands and inhabitants from threats. They are valorous and just, committed to safeguarding the peace and prosperity of Aetheria's Reach."
+        }
+    },
+    {
+        "model": "populator.faction",
+        "pk": 26,
+        "fields": {
+            "name": "The Zephyr Alliance",
+            "faction_type": "Diplomats",
+            "description": "A coalition of island leaders and influential figures working together to ensure the stability and unity of the archipelago. They facilitate communication and cooperation between islands, mediating conflicts and organizing collective defense efforts."
+        }
+    },
+    {
+        "model": "populator.faction",
+        "pk": 27,
+        "fields": {
+            "name": "The Lumina Healers",
+            "faction_type": "Healers",
+            "description": "A revered group of healers and light mages who use their powers to heal wounds, cure diseases, and dispel darkness. They travel across the archipelago, offering their services to all in need, spreading light and hope."
+        }
+    },
+    {"///////////////////////////////////////////////////////////////////////"},
+    {
+        "model": "populator.character",
+        "pk": 1,
+        "fields": {
+            "name": "Aragorn",
+            "role": "Leader",
+            "profession": "Ranger",
+            "description": "A mysterious wanderer with unmatched tracking skills.",
+            "stats": "Strength 13, Dexterity 18, Constitution 14, Intelligence 12, Wisdom 15, Charisma 10",
+            "abilities": "Expert archer, natural leader"
+        }
+    },
+    {
+        "model": "populator.demo",
+        "pk": 1,
+        "fields": {
+            "location": 1,
+            "factions": [1, 2, 3, 4, 5, 6, 7, 8, 9],
+            "characters": [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27]
+        }
+    },
+    {
+        "model": "populator.demo",
+        "pk": 2,
+        "fields": {
+            "location": 2,
+            "factions": [28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40, 41, 42, 43, 44, 45, 46, 47, 48, 49, 50, 51, 52, 53, 54],
+            "characters": [1]
+        }
+    },
+    {
+        "model": "populator.demo",
+        "pk": 3,
+        "fields": {
+            "location": 3,
+            "factions": [55, 56, 57, 58, 59, 60, 61, 62, 63, 64, 65, 66, 67, 68, 69, 70, 71, 72, 73, 74, 75, 76, 77, 78, 79, 80, 81],
+            "characters": [1]
+        }
+    }
+]
