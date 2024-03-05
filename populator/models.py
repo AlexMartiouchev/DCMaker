@@ -37,8 +37,6 @@ class Character(models.Model):
 # class UserProfile(models.Model):
 #     user = models.OneToOneField(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
 #     location = models.ForeignKey(Location, on_delete=models.SET_NULL, null=True, blank=True)
-#     factions = models.ManyToManyField(Faction, blank=True)
-#     characters = models.ManyToManyField(Character, blank=True)
 
 #     def __str__(self):
 #         return f"{self.user.username}'s profile"
