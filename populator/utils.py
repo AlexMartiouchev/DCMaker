@@ -66,43 +66,65 @@ def parse_faction_response(response_text):
 
 
 def parse_character_response(response_text):
-    # Pattern to match factions and their characters in one sweep
-    pattern = re.compile(
-        r"faction_(\d+)_name: (.+?)\n((?:character_\d+_name: .+?\n"
-        r"character_\d+_response: .+?\ncharacter_\d+_summary: .+?\n\n)+)",
-        re.DOTALL
-    )
+        # Pattern to match factions and their characters in one sweep
+        pattern = re.compile(
+            r"character(?:s)?_(\d+)_name:\s*(.+?)\r?\n"
+            r"character(?:s)?_\1_description:\s*(.+?)\r?\n"
+            r"character(?:s)?_\1_race:\s*(.+?)(?:\r?\n){2,}",
+            re.DOTALL
+        )
 
-    # Pattern to extract character details within a matched faction block
-    char_detail_pattern = re.compile(
-        r"character_(\d+)_name: (.+?)\n"
-        r"character_\1_response: (.+?)\n"
-        r"character_\1_summary: (.+?)\n\n",
-        re.DOTALL
-    )
+        # Remove AI context if given
+        start_marker = "character_1_name:"
+        start_index = response_text.find(start_marker)
+        if start_index != -1:
+            processed_text = response_text[start_index:]
+        else:
+            processed_text = response_text
 
-    structured_response = {}
+        # Find all matches
+        matches = pattern.findall(processed_text)
 
-    # Extract factions and associated character blocks
-    factions = pattern.findall(response_text)
+        # Convert matches to list of dictionaries
+        characters = [{
+            "name": match[1].strip(),
+            "description": match[2].strip(),
+            "race": match[3].strip()
+        } for match in matches]
 
-    for faction_index, faction_name, characters_block in factions:
-        # Extract individual character details within this faction's block
-        characters = char_detail_pattern.findall(characters_block)
+        # Convert list of dictionaries to JSON
+        return characters
 
-        # List to store structured character details
-        character_details = []
 
-        for _, char_name, char_response, char_summary in characters:
-            character_details.append({
-                "name": char_name.strip(),
-                "response": char_response.strip(),
-                "summary": char_summary.strip(),
-            })
+def parse_character_demo(response_text):
+        # Pattern to match factions and their characters in one sweep
+        pattern = re.compile(
+            r"character(?:s)?_(\d+)_name:\s*(.+?)\r?\n"
+            r"character(?:s)?_\1_description:\s*(.+?)\r?\n"
+            r"character(?:s)?_\1_race:\s*(.+?)(?:\r?\n){2,}",
+            re.DOTALL
+        )
 
-        # Assign faction name and characters to the structured response
-        structured_response[f"faction_{faction_index}_name"] = faction_name.strip()
-        structured_response[f"faction_{faction_index}_characters"] = character_details
+        # Remove AI context if given
+        start_marker = "character_1_name:"
+        start_index = response_text.find(start_marker)
+        if start_index != -1:
+            processed_text = response_text[start_index:]
+        else:
+            processed_text = response_text
 
-    return structured_response
+        # Find all matches
+        matches = pattern.findall(processed_text)
 
+        # Convert matches to list of dictionaries
+        characters = [{
+            "model": "populator.faction",
+            "fields": {
+                "pk": match[0],
+                "name": match[1].strip(),
+                "description": match[2].strip(),
+                "race": match[3].strip()
+            }
+        } for match in matches]
+
+        return characters

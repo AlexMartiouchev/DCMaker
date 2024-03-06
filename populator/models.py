@@ -21,13 +21,11 @@ class Faction(models.Model):
 
 class Character(models.Model):
     name = models.CharField(max_length=50)
-    lead = models.BooleanField()
     description = models.TextField()
+    lead = models.BooleanField()
     race = models.CharField(max_length=20)
     profession = models.CharField(max_length=50, null=True)
-    stats = models.CharField(max_length=100, blank=True)
-    actions = models.TextField(null=True)
-    abilities = models.TextField(blank=True, null=True)
+    combat_sheet = models.JSONField(default=dict, null=True)
     faction = models.ForeignKey(Faction, on_delete=models.CASCADE, related_name='characters')
 
     def __str__(self):
