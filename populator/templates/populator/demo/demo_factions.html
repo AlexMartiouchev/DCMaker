@@ -5,14 +5,52 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Demo Page</title>
+    <title>Demo Factions</title>
     <link rel="stylesheet" href="{% static 'css/styles.css' %}">
 </head>
-<body>
-    <h1>Demo Page</h1>
-
-    <!-- Your content here -->
-
+<body class="body">
+    <h1 class="title">Demo Mode Factions</h1>
+    <div class="topnav">
+        <a  href="Dndpractice.html"> Home </a>
+        <a class="active" href="Demo.html"> Demo </a>
+        <a href="sign up.html"> Log in/sign up </a>
+    </div><br>
+    <div class="ai-card">
+        <form action="demo_factions.html">
+            <fieldset>
+                <Legend>Faction generator</Legend>
+                <label for="aimode">AI mode</label><br>
+                <label class="switch">
+                    <input type="checkbox" checked>
+                    <div class="slider"></div>
+                    <div class="slider-card">
+                        <div class="slider-card-face slider-card-front"></div>
+                        <div class="slider-card-face slider-card-back"></div>
+                    </div>
+                </label><br>
+                <label for="prompt">Prompt:</label><br>
+                <textarea name="prompt" rows="8" cols="20"></textarea><br>
+                <input type="button" onclick="" value="Generate">
+                <input type="submit" value="Submit">
+            </fieldset>
+        </form>
+        </div>
+        <div class="ai-card">
+            <!--/* java script stuff to make cards appear 
+            after generation */-->
+        </div>
+        <div class="ai-card">
+            <!--/* java script  */-->
+        </div>
+        <div class="ai-card">
+            <!--/* java script  */-->
+        </div>
+        <div class="ai-card">
+            <!--/* java script  */-->
+        </div>
+        <div class="ai-card">
+            <!--/* java script  */-->
+        </div>
     <script src="{% static 'js/demo.js' %}"></script>
 </body>
 </html>

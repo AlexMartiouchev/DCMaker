@@ -1,16 +1,16 @@
-/* styles.css */
 @font-face{
     font-family: 'Pirata One';
-    src: url(../fonts/PirataOne-Regular.ttf) format('truetype');
+    src: url('../fonts/PirataOne-Regular.ttf') format('truetype');
     font-weight: normal;
     font-style: normal;
 }
 @font-face{
     font-family: 'uncial-antiqua';
-    src: url(../fonts/UncialAntiqua-Regular.ttf) format('truetype');
+    src: url('../fonts/UncialAntiqua-Regular.ttf') format('truetype');
 }
 .body{
-    background-image: url(../img/paper.jpg);
+    background-color: rgb(238, 210, 199);
+    background-image: url(paper.jpg);
     background-repeat: no-repeat;
     background-size: cover;
 }
@@ -73,25 +73,41 @@
 .row {
     display: flex;
     justify-content: center;
-    margin: 0;
     width: 100%;
-    margin: 10px;
+}
+.column {
+    background-color: rgb(110, 66, 64);
+    color: black;
+    font-size: larger;
+    border: 2px solid black;
+    margin: 10px; 
+    padding: 10px;
+    width: 33.33%; 
+    box-sizing: border-box;
 }
 .form{
     background-color:rgb(187, 66, 66);
     border: 4px black;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    flex-direction: column;
-    margin: auto;
-    padding: 2px;
-    padding-bottom: 4px;
     width: 50%;
+    text-align: center;
 }
-input[type=text],
-input[type=email],
-input[type=password]{
+.input[type=text]{
+    width: 50%;
+    border: 2px solid black;
+    border-radius: 4px;
+    padding: 10px 18px;
+    margin: 8px 0;
+    box-sizing: border-box;
+}
+.input[type=email]{
+    width: 50%;
+    border: 2px solid black;
+    border-radius: 4px;
+    padding: 10px 18px;
+    margin: 8px 0;
+    box-sizing: border-box;
+}
+.input[type=password]{
     width: 50%;
     border: 2px solid black;
     border-radius: 4px;
@@ -102,9 +118,7 @@ input[type=password]{
 .input:focus{
     background-color: rgb(232, 169, 166);
 }
-input[type=button], 
-input[type=submit], 
-input[type=reset]{
+.input[type=button], input[type=submit], input[type=reset]{
     background-color: rgb(110, 66, 64);
     border: none;
     color: black;
@@ -113,8 +127,8 @@ input[type=reset]{
     margin: 4px 2px;
     cursor: pointer;
 }
-input[type=number]{
-    width: 50px;
+.input[type=number]{
+    width: 20px;
     border: 2px solid black;
     border-radius: 4px;
     padding: 5px 8px;
@@ -123,84 +137,9 @@ input[type=number]{
     display: inline-block;
     vertical-align: middle; 
 }
-select#location{
-    width: 100%;
-    padding: 10px; 
-    margin-bottom: 10px; 
-    border: 2px solid black;
-    border-radius: 4px;
-    font-size: 16px; 
-    box-sizing: border-box;
-}
-legend {
-    font-family: 'uncial-antiqua', serif;
-    font-size: 24px; 
-    color: black; 
-}
 .label {
     margin-right: 10px;
     display: inline-block; 
     vertical-align: middle; 
 }
-.switch {
-    --circle-dim: 1.4em;
-    font-size: 17px;
-    position: relative;
-    display: inline-block;
-    width: 3.5em;
-    height: 2em;
-}
-.switch input {
-    opacity: 0;
-    width: 0;
-    height: 0;
-}
-.slider {
-    position: absolute;
-    cursor: pointer;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background-color: #f5aeae;
-    transition: .4s;
-    border-radius: 30px;
-}
-.slider-card {
-    position: absolute;
-    content: "";
-    height: var(--circle-dim);
-    width: var(--circle-dim);
-    border-radius: 20px;
-    left: 0.3em;
-    bottom: 0.3em;
-    transition: .4s;
-    pointer-events: none;
-}
-.slider-card-face {
-    position: absolute;
-    inset: 0;
-    backface-visibility: hidden;
-    perspective: 1000px;
-    border-radius: 50%;
-    transition: .4s transform;
-}
-.slider-card-front {
-    background-color: #DC3535;
-}
-.slider-card-back {
-    background-color: #379237;
-    transform: rotateY(180deg);
-}
-input:checked ~ .slider-card .slider-card-back {
-    transform: rotateY(0);
-}
-input:checked ~ .slider-card .slider-card-front {
-    transform: rotateY(-180deg);
-}
-input:checked ~ .slider-card {
-    transform: translateX(1.5em);
-}
-input:checked ~ .slider {
-    background-color: #9ed99c;
-}
+

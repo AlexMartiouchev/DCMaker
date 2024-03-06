@@ -5,13 +5,34 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Demo Page</title>
+    <title>Demo Locations</title>
     <link rel="stylesheet" href="{% static 'css/styles.css' %}">
 </head>
-<body>
-    <h1>Demo Page</h1>
-
-    <!-- Your content here -->
+<body class="body">
+    <h1 class="title">Demo mode - Locations!</h1>
+    <div class="topnav">
+        <a  href="Dndpractice.html"> Home </a>
+        <a class="active" href="Demo.html"> Demo </a>
+        <a href="sign up.html"> Log in/sign up </a>
+    </div><br>
+    <div class="form">
+        <form action="demo_factions.html">
+            <fieldset>
+                <Legend>Location generator</Legend>
+                <label for="prompt">Prompt - on this demo you can only pick from 3 pre-generated locations</label>
+                <select id="location" name="location" size="1">
+                    <option value="langfeyglade">Langfeyglade - Fairy Kingdom in strife</option>
+                    <option value="coralight">Coralight - Underwater City</option>
+                    <option value="aetheria's-Reach">Aetheria's Reach - Skyborne Archipelago</option>
+                </select><br>
+                <label for="number-of-players">Number of players</label>
+                <input type="number" id="number-of-players" name="numberofplayers" min="1" max="20"><br>
+                <label for="player-level">avg level of player</label>
+                <input type="number" id="player-level" name="playerlevel" min="1" max="20"><br>
+                <input type="button" onclick="" value="Generate">
+                <input type="submit" value="Submit">
+            </fieldset>
+        </form>
 
     <script src="{% static 'js/demo.js' %}"></script>
 </body>
