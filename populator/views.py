@@ -34,7 +34,7 @@ def demo_factions(request):
     if request.method == "POST":
         selected_faction_ids = request.POST.getlist("selected_faction_ids")
         request.session["selected_faction_ids"] = selected_faction_ids
-        return redirect("characters_view")
+        return redirect("demo_characters")
     else:
         return render(
             request, "populator/demo/demo_factions.html", {"factions": factions}
@@ -42,10 +42,15 @@ def demo_factions(request):
 
 
 def demo_characters(request):
+    selected_location_id = request.session.get("selected_location_id")
+    factions = Faction.objects.filter(location_id=selected_location_id)
     selected_faction_ids = request.session.get("selected_faction_ids")
     characters = Character.objects.filter(faction_id__in=selected_faction_ids)
+
     return render(
-        request, "populator/demo/demo_characters.html", {"characters": characters}
+        request,
+        "populator/demo/demo_characters.html",
+        {"factions": factions, "characters": characters},
     )
 
 
