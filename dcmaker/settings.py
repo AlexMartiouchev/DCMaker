@@ -10,6 +10,7 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/4.2/ref/settings/
 """
 
+import os
 from pathlib import Path
 from decouple import config
 
@@ -127,4 +128,7 @@ STATIC_URL = "static/"
 
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
-
+# Base directory for media files
+MEDIA_ROOT = os.path.join(BASE_DIR, "media")
+# URL to use when referring to media files (images, etc.)
+MEDIA_URL = "/media/"
