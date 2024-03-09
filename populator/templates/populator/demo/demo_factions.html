@@ -6,6 +6,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Demo Factions</title>
+    <link rel="icon" type="image/x-icon" href="/populator/static/img/Dndfavicon.jpg">
     <link rel="stylesheet" href="{% static 'css/styles.css' %}">
 </head>
 <body class="body">
@@ -15,8 +16,9 @@
         <a class="active" href="Demo.html"> Demo </a>
         <a href="sign up.html"> Log in/sign up </a>
     </div><br>
-    <div class="ai-card">
-        <form action="demo_factions.html">
+    <div class="card-container">
+        <div id="promptcard" class="aicard">
+            <form action="demo_factions.html">
             <fieldset>
                 <Legend>Faction generator</Legend>
                 <label for="aimode">AI mode</label><br>
@@ -34,23 +36,44 @@
                 <input type="submit" value="Submit">
             </fieldset>
         </form>
-        </div>
-        <div class="ai-card">
-            <!--/* java script stuff to make cards appear 
+    </div>
+    <div id="faction1" class="aicard">
+        <p class="top">Faction 1</p><br>
+        <p class="main">Input your prompt for your factions</p><br>
+        <input type="button" onclick="" value="Pick me!">
+        <input type="button" onclick="" value="Generate">
+        <!--/* java script stuff to make cards appear 
             after generation */-->
         </div>
-        <div class="ai-card">
+        <div id="faction2" class="aicard">
+            <p class="top">Faction 2</p><br>
+            <p class="main">Generate again for more options!</p><br>
+            <input type="button" onclick="" value="Pick me!">
+            <input type="button" onclick="" value="Generate">
             <!--/* java script  */-->
         </div>
-        <div class="ai-card">
+        <div id="faction3" class="aicard">
+                <p class="top">Faction 3</p><br>
+                <p class="main">Will you pick me?</p><br>
+                <input type="button" onclick="" value="Pick me!">
+                <input type="button" onclick="" value="Generate">
             <!--/* java script  */-->
         </div>
-        <div class="ai-card">
+        <div id="faction4" class="aicard">
+                <p class="top">Faction 4</p><br>
+                <p class="main">or maybe me?</p><br>
+                <input type="button" onclick="" value="Pick me!">
+                <input type="button" onclick="" value="Generate">
             <!--/* java script  */-->
         </div>
-        <div class="ai-card">
+        <div id="faction5" class="aicard">
+                <p class="top">Faction 5</p><br>
+                <p class="main">Im not your only option!</p><br>
+                <input type="button" onclick="" value="Pick me!">
+                <input type="button" onclick="" value="Generate">
             <!--/* java script  */-->
         </div>
+    </div>
     <script src="{% static 'js/demo.js' %}"></script>
 </body>
 </html>

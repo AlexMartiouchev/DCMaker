@@ -9,25 +9,29 @@
     font-family: 'uncial-antiqua';
     src: url(../fonts/UncialAntiqua-Regular.ttf) format('truetype');
 }
-.body{
+.body {
+    margin: 0;
+    padding: 0;
+    font-family: 'Arial', sans-serif;
     background-image: url(../img/paper.jpg);
     background-repeat: no-repeat;
     background-size: cover;
 }
-
-.title{
+.title {
+    text-align: center;
+    padding: 0.5em 0;
     background-color: rgb(187, 66, 66);
-    font-family: 'Pirata One', serif;
+    color: black;
+    font-family: 'Pirata One', cursive;
     color: black;
     text-align: center;
     border: 4px solid black;
 }
 .topnav {
     display: flex;
-    justify-content: center; 
-    align-items: center; 
-    flex-direction: row; 
+    justify-content: space-around; 
     background-color: rgb(187, 66, 66);
+    padding: 1em;
     font-family: 'uncial-antiqua', serif;
     color: black;
     text-align: center;
@@ -203,4 +207,44 @@ input:checked ~ .slider-card {
 }
 input:checked ~ .slider {
     background-color: #9ed99c;
+}
+.card-container{
+    display: grid;
+    grid-template-columns:repeat(3, 1fr);
+    gap: 1em;
+    padding: 1em;
+}
+.aicard{
+    background-color: rgb(187, 66, 66);
+    color: black;
+    padding: 1em;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    align-items: center;
+}
+button{
+    background-color: rgb(110, 66, 64);
+    color: black;
+    border: none;
+    padding: 10px 20px;
+    margin-top: 10px;
+    cursor: pointer;
+    border-radius: 4px;
+}
+p.top{
+    font-family: 'uncial-antiqua', serif;
+    font-size: 24px; 
+    color: black; 
+}
+p.main{
+    font-size: medium;
+    color: black;
+}
+@media only screen and (max-width: 600px) {
+    .card-container {
+    grid-template-columns: 1fr;
+    }
 }
