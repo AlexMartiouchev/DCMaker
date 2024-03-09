@@ -1,5 +1,6 @@
 from django.shortcuts import redirect, render
-from models import Location, Faction, Character
+
+from populator.models import Location, Faction, Character
 
 
 def index(request):
