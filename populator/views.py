@@ -15,7 +15,7 @@ def demo(request):
     return render(request, "populator/demo/demo_index.html")
 
 
-def demo_location(request):
+def demo_locations(request):
     if request.method == "POST":
         selected_location_id = request.POST.get("selected_location_id")
         request.session["selected_location_id"] = selected_location_id
