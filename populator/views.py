@@ -1,6 +1,5 @@
 from django.shortcuts import redirect, render
-
-from populator.models import Location, Faction, Character
+from models import Location, Faction, Character
 
 
 def index(request):
@@ -47,7 +46,6 @@ def demo_characters(request):
     factions = Faction.objects.filter(location_id=selected_location_id)
     selected_faction_ids = request.session.get("selected_faction_ids")
     characters = Character.objects.filter(faction_id__in=selected_faction_ids)
-
     return render(
         request,
         "populator/demo/demo_characters.html",
