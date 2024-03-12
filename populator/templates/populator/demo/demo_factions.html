@@ -18,7 +18,8 @@
     </div><br>
     <div class="card-container">
         <div id="promptcard" class="aicard">
-            <form action="demo_factions.html">
+            <form method="post" action="{% url 'demo_factions' %}">
+                {% csrf_token %}
             <fieldset>
                 <Legend>Faction generator</Legend>
                 <label for="aimode">AI mode</label><br>
@@ -31,12 +32,19 @@
                     </div>
                 </label><br>
                 <label for="prompt">Prompt:</label><br>
-                <textarea name="prompt" rows="8" cols="20"></textarea><br>
-                <input type="button" onclick="" value="Generate">
-                <input type="submit" value="Submit">
-            </fieldset>
-        </form>
-    </div>
+                <textarea class="textarea" name="prompt" rows="8" cols="10"></textarea><br>
+                <div class="button-container">
+                    <button class="gbtn">
+                                    <svg height="24" width="24" fill="#FFFFFF" viewBox="0 0 24 24" data-name="Layer 1" id="Layer_1" class="sparkle">
+                                        <path d="M10,21.236,6.755,14.745.264,11.5,6.755,8.255,10,1.764l3.245,6.491L19.736,11.5l-6.491,3.245ZM18,21l1.5,3L21,21l3-1.5L21,18l-1.5-3L18,18l-3,1.5ZM19.333,4.667,20.5,7l1.167-2.333L24,3.5,21.667,2.333,20.5,0,19.333,2.333,17,3.5Z"></path>
+                                    </svg>
+                                    <span class="text">Generate</span>
+                                </button>
+                                <br>
+                            </div>
+                        </fieldset>
+                    </form>
+                </div>
     <div id="faction1" class="aicard">
         <p class="top">Faction 1</p><br>
         <p class="main">Input your prompt for your factions</p><br>
@@ -74,6 +82,10 @@
             <!--/* java script  */-->
         </div>
     </div>
+    <fieldset>
+        <legend>Added all the factions you want? Press the button below to move on to characters</legend>
+
+    </fieldset>
     <script src="{% static 'js/demo.js' %}"></script>
 </body>
 </html>
