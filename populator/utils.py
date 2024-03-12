@@ -71,7 +71,11 @@ def parse_faction_response(response_text):
     return faction_data
 
 
+<<<<<<< HEAD
 def parse_character_description(response_text):
+=======
+def parse_character_demo(response_text):
+>>>>>>> main
     # Only start capturing from character_1_name or characters_1_name
     start_marker = "character_1_name:"
     start_index = response_text.find(start_marker)
@@ -206,6 +210,7 @@ def parse_character_demo(response_text):
     ]
 
     return characters
+<<<<<<< HEAD
 
 
 def location_image(prompt: str):
@@ -332,3 +337,5 @@ def save_image_from_url(image_url, obj, iso=None):
     except requests.exceptions.RequestException as e:
         print(f"Error saving the image: {e}")
         return None
+=======
+>>>>>>> main
