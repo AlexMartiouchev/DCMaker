@@ -2,8 +2,8 @@ import os
 import sys
 import time
 import django
-from dcmaker.settings import MEDIA_ROOT
 from django.core.files import File
+from dcmaker.settings import MEDIA_ROOT
 
 # project_path = "path_to_project_directory"
 
