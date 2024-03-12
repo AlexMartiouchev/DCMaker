@@ -66,7 +66,7 @@ def demo_character_image_generate():
         time.sleep(25)
 
 
-def update_model_images(model_class, is_isometric=None):
+def update_model_images(model_queryset, iso=None):
     folder_map = {
         "Location": "location_images",
         "Faction": "faction_images",
@@ -76,32 +76,28 @@ def update_model_images(model_class, is_isometric=None):
         },
     }
 
-    # Determine folder path based on model class and is_isometric flag
-    if model_class == Character:
-        assert (
-            is_isometric is not None
-        ), "is_isometric must be specified for Character model."
-        folder = folder_map["Character"][is_isometric]
-    else:
-        folder = folder_map[model_class.__name__]
+    # Get the model class from the queryset
+    if model_queryset.model:
+        model_class = model_queryset.model
+        model_name = model_class.__name__
 
-    # Iterate over all instances of the model class
-    for instance in model_class.objects.all():
-        safe_name = "".join(
-            c if c.isalnum() or c in "-_" else "" for c in instance.name
-        ).rstrip()
-        filename = f"{safe_name}_{instance.pk}.png"
-        full_path = os.path.join(MEDIA_ROOT, folder, filename)
-
-        # Ensure the directory exists
-        os.makedirs(os.path.dirname(full_path), exist_ok=True)
-
-        # If the file exists, attach it to the instance's image field
-        if os.path.exists(full_path):
-            with open(full_path, "rb") as file:
-                instance.image.save(filename, File(file), save=True)
+        if iso is not None:
+            folder = folder_map["Character"][iso]
         else:
-            print(f"File not found: {full_path}")
+            folder = folder_map.get(model_name, "")
+
+        for instance in model_queryset:
+            safe_name = "".join(
+                c if c.isalnum() or c in "-_" else "" for c in instance.name
+            ).rstrip()
+            filename = f"{model_name}_{instance.pk}_{safe_name}.png"
+            filepath = os.path.join(MEDIA_ROOT, folder, filename)
+
+            if os.path.exists(filepath):
+                with open(filepath, "rb") as f:
+                    instance.image.save(filename, File(f), save=True)
+            else:
+                print(f"File not found: {filepath}")
 
 
 # uncomment model to generate AND save, if generating for the first time, there is no need to save as below
@@ -113,7 +109,7 @@ def update_model_images(model_class, is_isometric=None):
 
 # uncomment models needed to save
 
-# update_model_images(demo_locations)
+update_model_images(demo_locations)
 # update_model_images(demo_factions)
 # update_model_images(demo_characters iso=True)
 # update_model_images(demo_characters, iso=False)
