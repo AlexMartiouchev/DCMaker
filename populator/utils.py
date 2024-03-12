@@ -1,6 +1,9 @@
+import os
 from openai import OpenAI
 from django.conf import settings
 import re
+
+import requests
 
 client = OpenAI(api_key=settings.OPENAI_API_KEY)
 
@@ -68,7 +71,7 @@ def parse_faction_response(response_text):
     return faction_data
 
 
-def parse_character_demo(response_text):
+def parse_character_description(response_text):
     # Only start capturing from character_1_name or characters_1_name
     start_marker = "character_1_name:"
     start_index = response_text.find(start_marker)
@@ -203,3 +206,129 @@ def parse_character_demo(response_text):
     ]
 
     return characters
+
+
+def location_image(prompt: str):
+    try:
+        response = client.images.generate(
+            model="dall-e-3",
+            prompt=prompt,
+            size="1024x1024",
+            quality="standard",
+            n=1,
+        )
+
+        image_url = response.data[0].url
+        return image_url
+    except Exception as e:
+        print(f"Error generating location image: {e}")
+        return None
+
+
+def faction_image(prompt: str):
+    try:
+        response = client.images.generate(
+            model="dall-e-2",
+            prompt=prompt,
+            size="256x256",
+            quality="standard",
+            n=1,
+        )
+
+        image_url = response.data[0].url
+        return image_url
+    except Exception as e:
+        print(f"Error generating faction image: {e}")
+        return None
+
+
+def character_image_iso(prompt: str):
+    try:
+        with open("../prompts/character_isometric.png", "rb") as image_file:
+            response = client.images.create_variation(
+                image=image_file, n=1, size="512x512"
+            )
+        image_url = response["data"][0]["url"]
+        return image_url
+    except Exception as e:
+        print(f"Error generating isometric character image: {e}")
+        return None
+
+
+def character_image_hs(prompt: str):
+    try:
+        with open("../prompts/character_headshot.png", "rb") as image_file:
+            response = client.images.create_variation(
+                image=image_file, n=1, size="256x256"
+            )
+        image_url = response["data"][0]["url"]
+        return image_url
+    except Exception as e:
+        print(f"Error generating headshot character image: {e}")
+        return None
+
+
+def save_image_from_url(image_url, obj, iso=None):
+    folder_map = {
+        "Location": "location_images",
+        "Faction": "faction_images",
+        "Character": {
+            True: "character_images/isometric",  # Assuming 'True' implies isometric
+            False: "character_images/headshots",
+        },
+    }
+
+    # Determine the folder based on the category or object type
+    if iso:
+        folder = folder_map.get(iso, "")
+    else:
+        # Dynamically determine the folder based on the object type and properties
+        model_name = obj.__class__.__name__
+        if model_name in folder_map:
+            if model_name == "Character":
+                if iso == True:
+                    folder = folder_map[model_name][True]
+                else:
+                    folder = folder_map[model_name][False]
+            else:
+                folder = folder_map[model_name]
+        else:
+            print(f"Unknown model or category: {model_name}")
+            return
+
+    safe_name = "".join(
+        c if c.isalnum() or c in "-_" else "" for c in obj.name
+    ).rstrip()
+    if model_name == "Character":
+        if iso:
+            os.path.join(folder, f"{model_name}iso_{obj.pk}_{safe_name}.png")
+        else:
+            os.path.join(folder, f"{model_name}headshot_{obj.pk}_{safe_name}.png")
+    else:
+        local_path = os.path.join(folder, f"{model_name}_{obj.pk}_{safe_name}.png")
+
+    # Ensure the directory exists
+    full_path = os.path.join(settings.MEDIA_ROOT, local_path)
+    os.makedirs(os.path.dirname(full_path), exist_ok=True)
+
+    # Download and save the image
+    try:
+        response = requests.get(image_url)
+        response.raise_for_status()
+        try:
+            obj.image = local_path
+            obj.save()
+        except:
+            pass
+
+        with open(full_path, "wb") as f:
+            f.write(response.content)
+
+        print(f"Image saved to {full_path}")
+        # Here you might also want to update the object's image field
+        # and save the object, e.g., obj.image = local_path; obj.save()
+        return local_path
+
+    except requests.exceptions.RequestException as e:
+        print(f"Error saving the image: {e}")
+        return None
