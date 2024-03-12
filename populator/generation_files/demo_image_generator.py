@@ -1,6 +1,8 @@
 import os
 import time
 import django
+from dcmaker.settings import MEDIA_ROOT
+from django.core.files import File
 
 os.environ.setdefault("DJANGO_SETTINGS_MODULE", "dcmaker.settings")
 django.setup()
@@ -64,4 +66,54 @@ def demo_character_image_generate():
         time.sleep(25)
 
 
-demo_faction_image_generate()
+def update_model_images(model_class, is_isometric=None):
+    folder_map = {
+        "Location": "location_images",
+        "Faction": "faction_images",
+        "Character": {
+            True: "character_images/isometric",
+            False: "character_images/headshots",
+        },
+    }
+
+    # Determine folder path based on model class and is_isometric flag
+    if model_class == Character:
+        assert (
+            is_isometric is not None
+        ), "is_isometric must be specified for Character model."
+        folder = folder_map["Character"][is_isometric]
+    else:
+        folder = folder_map[model_class.__name__]
+
+    # Iterate over all instances of the model class
+    for instance in model_class.objects.all():
+        safe_name = "".join(
+            c if c.isalnum() or c in "-_" else "" for c in instance.name
+        ).rstrip()
+        filename = f"{safe_name}_{instance.pk}.png"
+        full_path = os.path.join(MEDIA_ROOT, folder, filename)
+
+        # Ensure the directory exists
+        os.makedirs(os.path.dirname(full_path), exist_ok=True)
+
+        # If the file exists, attach it to the instance's image field
+        if os.path.exists(full_path):
+            with open(full_path, "rb") as file:
+                instance.image.save(filename, File(file), save=True)
+        else:
+            print(f"File not found: {full_path}")
+
+
+# uncomment model to generate AND save, if generating for the first time, there is no need to save as below
+
+# demo_location_image_generate()
+# demo_faction_image_generate()
+# demo_character_image_generate()
+
+
+# uncomment models needed to save
+
+# update_model_images(demo_locations)
+# update_model_images(demo_factions)
+# update_model_images(demo_characters iso=True)
+# update_model_images(demo_characters, iso=False)
