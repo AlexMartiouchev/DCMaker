@@ -5,12 +5,129 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Demo Page</title>
+    <title>Demo Characters</title>
     <link rel="stylesheet" href="{% static 'css/styles.css' %}">
 </head>
-<body>
-    <h1>Demo Page</h1>
-
+<body class="body">
+    <h1 class="title">Demo mode - Characters!</h1>
+    <div class="topnav">
+        <a  href="Dndpractice.html"> Home </a>
+        <a class="active" href="Demo.html"> Demo </a>
+        <a href="sign up.html"> Log in/sign up </a>
+    </div><br>
+    <div class="card-container">
+        <div id="promptcard" class="aicard">
+            <form action="demo_factions.html">
+            <fieldset>
+                <Legend>Character generator</Legend>
+                <label for="Leads/Mobs">Leads / Mobs</label><br>
+                <label class="switch">
+                    <input type="checkbox">
+                    <div class="slider"></div>
+                    <div class="slider-card">
+                        <div class="slider-card-face slider-card-front"></div>
+                        <div class="slider-card-face slider-card-back"></div>
+                    </div>
+                </label><br>
+                <label for="prompt">Prompt:</label><br>
+                <textarea name="prompt" rows="8" cols="20"></textarea><br>
+                <button class="btn">
+                    <svg height="24" width="24" fill="#FFFFFF" viewBox="0 0 24 24" data-name="Layer 1" id="Layer_1" class="sparkle">
+                        <path d="M10,21.236,6.755,14.745.264,11.5,6.755,8.255,10,1.764l3.245,6.491L19.736,11.5l-6.491,3.245ZM18,21l1.5,3L21,21l3-1.5L21,18l-1.5-3L18,18l-3,1.5ZM19.333,4.667,20.5,7l1.167-2.333L24,3.5,21.667,2.333,20.5,0,19.333,2.333,17,3.5Z"></path>
+                    </svg>
+                
+                    <span class="text">Generate</span>
+                </button>
+            </fieldset>
+        </form>
+    </div>
+    <div id="faction1" class="aicard">
+        <p class="top">Character 1</p><br>
+        <p class="main">Input your prompt for your Characters</p><br>
+        <button type="button" class="Add">
+            <span class="button__text">Add Character</span>
+            <span class="button__icon"><svg xmlns="http://www.w3.org/2000/svg" width="24" viewBox="0 0 24 24" stroke-width="2" stroke-linejoin="round" stroke-linecap="round" stroke="currentColor" height="24" fill="none" class="svg"><line y2="19" y1="5" x2="12" x1="12"></line><line y2="12" y1="12" x2="19" x1="5"></line></svg></span>
+        </button>
+        <button class="remove">
+            <span class="remove_text">Remove</span>
+            <span class="remove_icon">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+                    <path d="M24 20.188l-8.315-8.209 8.2-8.282-3.697-3.697-8.212 8.318-8.31-8.203-3.666 3.666 8.321 8.24-8.206 8.313 3.666 3.666 8.237-8.318 8.285 8.203z"></path>
+                </svg>
+            </span>
+        </button>
+        <!--/* java script stuff to make cards appear 
+            after generation */-->
+        </div>
+        <div id="faction2" class="aicard">
+            <p class="top">Character 2</p><br>
+            <p class="main">Generate again for more options!</p><br>
+            <button type="button" class="Add">
+                <span class="button__text">Add Character</span>
+                <span class="button__icon"><svg xmlns="http://www.w3.org/2000/svg" width="24" viewBox="0 0 24 24" stroke-width="2" stroke-linejoin="round" stroke-linecap="round" stroke="currentColor" height="24" fill="none" class="svg"><line y2="19" y1="5" x2="12" x1="12"></line><line y2="12" y1="12" x2="19" x1="5"></line></svg></span>
+            </button>
+            <button class="remove">
+                <span class="remove_text">Remove</span>
+                <span class="remove_icon">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+                        <path d="M24 20.188l-8.315-8.209 8.2-8.282-3.697-3.697-8.212 8.318-8.31-8.203-3.666 3.666 8.321 8.24-8.206 8.313 3.666 3.666 8.237-8.318 8.285 8.203z"></path>
+                    </svg>
+                </span>
+            </button>
+            <!--/* java script  */-->
+        </div>
+        <div id="faction3" class="aicard">
+                <p class="top">Character 3</p><br>
+                <p class="main">Will you pick me?</p><br>
+                <button type="button" class="Add">
+                    <span class="button__text">Add Character</span>
+                    <span class="button__icon"><svg xmlns="http://www.w3.org/2000/svg" width="24" viewBox="0 0 24 24" stroke-width="2" stroke-linejoin="round" stroke-linecap="round" stroke="currentColor" height="24" fill="none" class="svg"><line y2="19" y1="5" x2="12" x1="12"></line><line y2="12" y1="12" x2="19" x1="5"></line></svg></span>
+                </button>
+                <button class="remove">
+                    <span class="remove_text">Remove</span>
+                    <span class="remove_icon">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+                            <path d="M24 20.188l-8.315-8.209 8.2-8.282-3.697-3.697-8.212 8.318-8.31-8.203-3.666 3.666 8.321 8.24-8.206 8.313 3.666 3.666 8.237-8.318 8.285 8.203z"></path>
+                        </svg>
+                    </span>
+                </button>
+            <!--/* java script  */-->
+        </div>
+        <div id="faction4" class="aicard">
+                <p class="top">Character 4</p><br>
+                <p class="main">or maybe me?</p><br>
+                <button type="button" class="Add">
+                    <span class="button__text">Add Character</span>
+                    <span class="button__icon"><svg xmlns="http://www.w3.org/2000/svg" width="24" viewBox="0 0 24 24" stroke-width="2" stroke-linejoin="round" stroke-linecap="round" stroke="currentColor" height="24" fill="none" class="svg"><line y2="19" y1="5" x2="12" x1="12"></line><line y2="12" y1="12" x2="19" x1="5"></line></svg></span>
+                </button>
+                <button class="remove">
+                    <span class="remove_text">Remove</span>
+                    <span class="remove_icon">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+                            <path d="M24 20.188l-8.315-8.209 8.2-8.282-3.697-3.697-8.212 8.318-8.31-8.203-3.666 3.666 8.321 8.24-8.206 8.313 3.666 3.666 8.237-8.318 8.285 8.203z"></path>
+                        </svg>
+                    </span>
+                </button>
+            <!--/* java script  */-->
+        </div>
+        <div id="faction5" class="aicard">
+                <p class="top">Character 5</p><br>
+                <p class="main">Im not your only option!</p><br>
+                <button type="button" class="Add">
+                    <span class="button__text">Add Character</span>
+                    <span class="button__icon"><svg xmlns="http://www.w3.org/2000/svg" width="24" viewBox="0 0 24 24" stroke-width="2" stroke-linejoin="round" stroke-linecap="round" stroke="currentColor" height="24" fill="none" class="svg"><line y2="19" y1="5" x2="12" x1="12"></line><line y2="12" y1="12" x2="19" x1="5"></line></svg></span>
+                </button>
+                <button class="remove">
+                    <span class="remove_text">Remove</span>
+                    <span class="remove_icon">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+                            <path d="M24 20.188l-8.315-8.209 8.2-8.282-3.697-3.697-8.212 8.318-8.31-8.203-3.666 3.666 8.321 8.24-8.206 8.313 3.666 3.666 8.237-8.318 8.285 8.203z"></path>
+                        </svg>
+                    </span>
+                </button>
+            <!--/* java script  */-->
+        </div>
+    </div>
     <!-- Your content here -->
 
     <script src="{% static 'js/demo.js' %}"></script>
