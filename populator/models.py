@@ -1,3 +1,4 @@
+from django.conf import settings
 from django.db import models
 
 
@@ -5,9 +6,15 @@ class Location(models.Model):
     name = models.CharField(max_length=50)
     location_type = models.CharField(max_length=50)
     description = models.TextField()
-    party_size = models.IntegerField()
     party_level = models.IntegerField()
     image = models.ImageField(upload_to="location_images/", null=True, blank=True)
+    user = models.ForeignKey(
+        settings.AUTH_USER_MODEL,
+        on_delete=models.CASCADE,
+        related_name="locations",
+        null=True,
+        blank=True,
+    )
 
     def __str__(self):
         return self.name
@@ -45,15 +52,6 @@ class Character(models.Model):
 
     def __str__(self):
         return self.name
-
-
-#  setting up user objects here as a reminder for post demo work
-# class UserProfile(models.Model):
-#     user = models.OneToOneField(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
-#     location = models.ForeignKey(Location, on_delete=models.SET_NULL, null=True, blank=True)
-
-#     def __str__(self):
-#         return f"{self.user.username}'s profile"
 
 
 class Demo(models.Model):
