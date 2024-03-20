@@ -6,8 +6,8 @@
             "name": "Langfeyglade",
             "location_type": "Fairy Kingdom in Strife",
             "description": "A once serene and hidden kingdom, known for its lush, enchanted forests and mystical creatures, is now on the brink of civil unrest. Ancient magic wanes, and factions vie for control over the remaining sources of magical power.",
-            "party_size": 4,
-            "party_level": 8
+            "party_level": 8,
+            "user": 2
         }
     },
     {
@@ -17,8 +17,8 @@
             "name": "Coralight",
             "location_type": "Underwater City",
             "description": "A breathtaking city beneath the waves, built from living coral and bioluminescent plants, is threatened by external invasions and internal decay. Its inhabitants, a mix of merfolk, sentient sea creatures, and adapted surface dwellers, face a future uncertain.",
-            "party_size": 4,
-            "party_level": 8
+            "party_level": 8,
+            "user": 2
         }
     },
     {
@@ -28,8 +28,8 @@
             "name": "Aetheria's Reach",
             "location_type": "Skyborne Archipelago",
             "description": "A series of floating islands above a seemingly endless void, connected by bridges of light and ancient magic. The islands are a haven for air elementals, sky pirates, and adventurers seeking the thrill of the unknown.",
-            "party_size": 4,
-            "party_level": 8
+            "party_level": 8,
+            "user": 2
         }
     },
     {

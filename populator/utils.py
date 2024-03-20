@@ -245,9 +245,7 @@ def faction_image(prompt: str):
 def character_image_iso(prompt: str):
     try:
         with open("../prompts/character_isometric.png", "rb") as image_file:
-            response = client.images.create_variation(
-                image=image_file, n=1, size="512x512"
-            )
+            response = client.images.edit(image=image_file, n=1, size="512x512")
         image_url = response["data"][0]["url"]
         return image_url
     except Exception as e:
@@ -258,9 +256,7 @@ def character_image_iso(prompt: str):
 def character_image_hs(prompt: str):
     try:
         with open("../prompts/character_headshot.png", "rb") as image_file:
-            response = client.images.create_variation(
-                image=image_file, n=1, size="256x256"
-            )
+            response = client.images.edit(image=image_file, n=1, size="256x256")
         image_url = response["data"][0]["url"]
         return image_url
     except Exception as e:

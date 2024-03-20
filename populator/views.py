@@ -20,7 +20,7 @@ def demo_locations(request):
         request.session["selected_location_id"] = selected_location_id
         return redirect("demo_factions")
     else:
-        demo_locations = Location.objects.filter(demo__isnull=False)
+        demo_locations = Location.objects.filter(user__id=2)
         return render(
             request,
             "populator/demo/demo_location.html",

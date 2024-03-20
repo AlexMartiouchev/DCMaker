@@ -69,9 +69,10 @@ def demo_character_image_generate():
         prompt = f"{character.name}\n{character.description}\n{PopulatorConfig.character_image_prompt}"
         character_url = faction_image(prompt=prompt)
         save_image_from_url(image_url=character_url, obj=character, iso=True)
+        time.sleep(13)
         character_url = faction_image(prompt=prompt)
         save_image_from_url(image_url=character_url, obj=character, iso=False)
-        time.sleep(25)
+        time.sleep(13)
 
 
 def update_model_images(model_queryset, iso=None):
@@ -112,12 +113,12 @@ def update_model_images(model_queryset, iso=None):
 
 # demo_location_image_generate()
 # demo_faction_image_generate()
-# demo_character_image_generate()
+demo_character_image_generate()
 
 
 # uncomment models needed to save
 
-update_model_images(demo_locations)
+# update_model_images(demo_locations)
 # update_model_images(demo_factions)
 # update_model_images(demo_characters iso=True)
 # update_model_images(demo_characters, iso=False)
