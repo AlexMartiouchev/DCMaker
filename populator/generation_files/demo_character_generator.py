@@ -152,7 +152,7 @@ def character_generator(
         location
         + str(faction["fields"])
         + f"/n Make sure to generate exactly {amount} characters"
-        + "Balance this character to be appropriate for 4 level 8 players"
+        + "Balance this character to be appropriate for 8 players"
     )
 
     character_desc = call_open_api(prompt)
