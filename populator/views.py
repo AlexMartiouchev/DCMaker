@@ -1,6 +1,5 @@
 from django.shortcuts import redirect, render
-
-from populator.models import Location, Faction, Character
+from .models import Character, Location, Faction
 
 
 def index(request):
@@ -15,13 +14,13 @@ def demo(request):
     return render(request, "populator/demo/demo_index.html")
 
 
-def demo_location(request):
+def demo_locations(request):
     if request.method == "POST":
         selected_location_id = request.POST.get("selected_location_id")
         request.session["selected_location_id"] = selected_location_id
         return redirect("demo_factions")
     else:
-        demo_locations = Location.objects.filter(demo__isnull=False)
+        demo_locations = Location.objects.filter(user__id=2)
         return render(
             request,
             "populator/demo/demo_location.html",
@@ -47,7 +46,6 @@ def demo_characters(request):
     factions = Faction.objects.filter(location_id=selected_location_id)
     selected_faction_ids = request.session.get("selected_faction_ids")
     characters = Character.objects.filter(faction_id__in=selected_faction_ids)
-
     return render(
         request,
         "populator/demo/demo_characters.html",

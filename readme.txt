@@ -1,7 +1,7 @@
 This project is in extreme alpha stages
 
 * Frontend is in development by my partner, who's just learning to code
-* Demo data has been generated
+* Incomplete demo can be accessible throught the generation files folder in the populator app
 * Prompts are hidden
 
 TODO's
