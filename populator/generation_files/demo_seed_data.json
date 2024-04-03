@@ -6473,26 +6473,5 @@
             "faction": 27
         },
         "pk": 189
-    },
-    {
-        "model": "populator.demo",
-        "pk": 1,
-        "fields": {
-            "location": 1
-        }
-    },
-    {
-        "model": "populator.demo",
-        "pk": 2,
-        "fields": {
-            "location": 2
-        }
-    },
-    {
-        "model": "populator.demo",
-        "pk": 3,
-        "fields": {
-            "location": 3
-        }
     }
 ]
