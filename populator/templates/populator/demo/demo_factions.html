@@ -34,7 +34,7 @@
                 <label for="prompt">Prompt:</label><br>
                 <textarea class="textarea" name="prompt" rows="8" cols="10"></textarea><br>
                 <div class="button-container">
-                    <button class="gbtn">
+                    <button class="gbtn" onclick="createFactionCard()">
                                     <svg height="24" width="24" fill="#FFFFFF" viewBox="0 0 24 24" data-name="Layer 1" id="Layer_1" class="sparkle">
                                         <path d="M10,21.236,6.755,14.745.264,11.5,6.755,8.255,10,1.764l3.245,6.491L19.736,11.5l-6.491,3.245ZM18,21l1.5,3L21,21l3-1.5L21,18l-1.5-3L18,18l-3,1.5ZM19.333,4.667,20.5,7l1.167-2.333L24,3.5,21.667,2.333,20.5,0,19.333,2.333,17,3.5Z"></path>
                                     </svg>
@@ -46,45 +46,133 @@
                     </form>
                 </div>
     <div id="faction1" class="aicard">
-        <p class="top">Faction 1</p><br>
-        <p class="main">Input your prompt for your factions</p><br>
-        <input type="button" onclick="" value="Pick me!">
-        <input type="button" onclick="" value="Generate">
+        <p class="top">{{factions.0.name}}</p><br>
+        <p class="main">{{factions.0.faction_type}}</p>
+        <p class="def">{{factions.0.description}}</p>
+        <img src="{{ factions.0.image.url }}" alt="{{ factions.0.name }}" class="faction-image">
+        <div class="button-container">
+            <button title="Remove Item" class="custom-button">
+                <svg
+                xmlns="http://www.w3.org/2000/svg"
+                class="custom-svg"
+                width="50px"
+                height="50px"
+                viewBox="0 0 24 24">
+                <path
+                class="circle"
+                d="M12 22C17.5 22 22 17.5 22 12C22 6.5 17.5 2 12 2C6.5 2 2 6.5 2 12C2 17.5 6.5 22 12 22Z"
+                stroke-width="1.5"
+                ></path>
+                <path class="line-horizontal" d="M8 12H16" stroke-width="1.5"></path>
+            </svg>
+        </button>
+    </div>
         <!--/* java script stuff to make cards appear 
             after generation */-->
         </div>
         <div id="faction2" class="aicard">
             <p class="top">Faction 2</p><br>
             <p class="main">Generate again for more options!</p><br>
-            <input type="button" onclick="" value="Pick me!">
-            <input type="button" onclick="" value="Generate">
+            <div class="button-container">
+                <button title="Remove Item" class="custom-button">
+                    <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    class="custom-svg"
+                    width="50px"
+                    height="50px"
+                    viewBox="0 0 24 24">
+                    <path
+                    class="circle"
+                    d="M12 22C17.5 22 22 17.5 22 12C22 6.5 17.5 2 12 2C6.5 2 2 6.5 2 12C2 17.5 6.5 22 12 22Z"
+                    stroke-width="1.5"
+                    ></path>
+                    <path class="line-horizontal" d="M8 12H16" stroke-width="1.5"></path>
+                </svg>
+            </button>
+        </div>
             <!--/* java script  */-->
         </div>
         <div id="faction3" class="aicard">
                 <p class="top">Faction 3</p><br>
                 <p class="main">Will you pick me?</p><br>
-                <input type="button" onclick="" value="Pick me!">
-                <input type="button" onclick="" value="Generate">
+                <div class="button-container">
+                    <button title="Remove Item" class="custom-button">
+                        <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        class="custom-svg"
+                        width="50px"
+                        height="50px"
+                        viewBox="0 0 24 24">
+                        <path
+                        class="circle"
+                        d="M12 22C17.5 22 22 17.5 22 12C22 6.5 17.5 2 12 2C6.5 2 2 6.5 2 12C2 17.5 6.5 22 12 22Z"
+                        stroke-width="1.5"
+                        ></path>
+                        <path class="line-horizontal" d="M8 12H16" stroke-width="1.5"></path>
+                    </svg>
+                </button>
+            </div>
             <!--/* java script  */-->
         </div>
         <div id="faction4" class="aicard">
                 <p class="top">Faction 4</p><br>
                 <p class="main">or maybe me?</p><br>
-                <input type="button" onclick="" value="Pick me!">
-                <input type="button" onclick="" value="Generate">
+                <div class="button-container">
+                    <button title="Remove Item" class="custom-button">
+                        <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        class="custom-svg"
+                        width="50px"
+                        height="50px"
+                        viewBox="0 0 24 24">
+                        <path
+                        class="circle"
+                        d="M12 22C17.5 22 22 17.5 22 12C22 6.5 17.5 2 12 2C6.5 2 2 6.5 2 12C2 17.5 6.5 22 12 22Z"
+                        stroke-width="1.5"
+                        ></path>
+                        <path class="line-horizontal" d="M8 12H16" stroke-width="1.5"></path>
+                    </svg>
+                </button>
+            </div>
             <!--/* java script  */-->
         </div>
         <div id="faction5" class="aicard">
                 <p class="top">Faction 5</p><br>
                 <p class="main">Im not your only option!</p><br>
-                <input type="button" onclick="" value="Pick me!">
-                <input type="button" onclick="" value="Generate">
+                <div class="button-container">
+                    <button title="Remove Item" class="custom-button">
+                        <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        class="custom-svg"
+                        width="50px"
+                        height="50px"
+                        viewBox="0 0 24 24">
+                        <path
+                        class="circle"
+                        d="M12 22C17.5 22 22 17.5 22 12C22 6.5 17.5 2 12 2C6.5 2 2 6.5 2 12C2 17.5 6.5 22 12 22Z"
+                        stroke-width="1.5"
+                        ></path>
+                        <path class="line-horizontal" d="M8 12H16" stroke-width="1.5"></path>
+                    </svg>
+                </button>
+            </div>
             <!--/* java script  */-->
         </div>
     </div>
     <fieldset>
         <legend>Added all the factions you want? Press the button below to move on to characters</legend>
-
+        <div class="button-container">
+            <button class="btn-content" type="submit" href="#">
+                <svg width="66px" height="43px" viewBox="0 0 66 43" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+                    <g id="arrow" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+                        <path id="arrow-icon-one" d="M40.1543933,3.89485454 L43.9763149,0.139296592 C44.1708311,-0.0518420739 44.4826329,-0.0518571125 44.6771675,0.139262789 L65.6916134,20.7848311 C66.0855801,21.1718824 66.0911863,21.8050225 65.704135,22.1989893 C65.7000188,22.2031791 65.6958657,22.2073326 65.6916762,22.2114492 L44.677098,42.8607841 C44.4825957,43.0519059 44.1708242,43.0519358 43.9762853,42.8608513 L40.1545186,39.1069479 C39.9575152,38.9134427 39.9546793,38.5968729 40.1481845,38.3998695 C40.1502893,38.3977268 40.1524132,38.395603 40.1545562,38.3934985 L56.9937789,21.8567812 C57.1908028,21.6632968 57.193672,21.3467273 57.0001876,21.1497035 C56.9980647,21.1475418 56.9959223,21.1453995 56.9937605,21.1432767 L40.1545208,4.60825197 C39.9574869,4.41477773 39.9546013,4.09820839 40.1480756,3.90117456 C40.1501626,3.89904911 40.1522686,3.89694235 40.1543933,3.89485454 Z" fill="#FFFFFF"></path>
+                        <path id="arrow-icon-two" d="M20.1543933,3.89485454 L23.9763149,0.139296592 C24.1708311,-0.0518420739 24.4826329,-0.0518571125 24.6771675,0.139262789 L45.6916134,20.7848311 C46.0855801,21.1718824 46.0911863,21.8050225 45.704135,22.1989893 C45.7000188,22.2031791 45.6958657,22.2073326 45.6916762,22.2114492 L24.677098,42.8607841 C24.4825957,43.0519059 24.1708242,43.0519358 23.9762853,42.8608513 L20.1545186,39.1069479 C19.9575152,38.9134427 19.9546793,38.5968729 20.1481845,38.3998695 C20.1502893,38.3977268 20.1524132,38.395603 20.1545562,38.3934985 L36.9937789,21.8567812 C37.1908028,21.6632968 37.193672,21.3467273 37.0001876,21.1497035 C36.9980647,21.1475418 36.9959223,21.1453995 36.9937605,21.1432767 L20.1545208,4.60825197 C19.9574869,4.41477773 19.9546013,4.09820839 20.1480756,3.90117456 C20.1501626,3.89904911 20.1522686,3.89694235 20.1543933,3.89485454 Z" fill="#FFFFFF"></path>
+                        <path id="arrow-icon-three" d="M0.154393339,3.89485454 L3.97631488,0.139296592 C4.17083111,-0.0518420739 4.48263286,-0.0518571125 4.67716753,0.139262789 L25.6916134,20.7848311 C26.0855801,21.1718824 26.0911863,21.8050225 25.704135,22.1989893 C25.7000188,22.2031791 25.6958657,22.2073326 25.6916762,22.2114492 L4.67709797,42.8607841 C4.48259567,43.0519059 4.17082418,43.0519358 3.97628526,42.8608513 L0.154518591,39.1069479 C-0.0424848215,38.9134427 -0.0453206733,38.5968729 0.148184538,38.3998695 C0.150289256,38.3977268 0.152413239,38.395603 0.154556228,38.3934985 L16.9937789,21.8567812 C17.1908028,21.6632968 17.193672,21.3467273 17.0001876,21.1497035 C16.9980647,21.1475418 16.9959223,21.1453995 16.9937605,21.1432767 L0.15452076,4.60825197 C-0.0425130651,4.41477773 -0.0453986756,4.09820839 0.148075568,3.90117456 C0.150162624,3.89904911 0.152268631,3.89694235 0.154393339,3.89485454 Z" fill="#FFFFFF"></path>
+                    </g>
+                </svg>
+                <span class="btn-title">NEXT</span>
+            </button>
+        </div>
     </fieldset>
     <script src="{% static 'js/demo.js' %}"></script>
 </body>

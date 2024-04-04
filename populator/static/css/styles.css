@@ -282,6 +282,12 @@ p.main{
     font-size: medium;
     color: black;
 }
+p.def{
+    font-size: medium;
+    color: black;
+    margin: auto;
+    text-align: center;
+}
 .Add {
     position: relative;
     margin: auto;
@@ -523,4 +529,31 @@ p.main{
     .card-container {
     grid-template-columns: 1fr;
     }
+}
+.custom-button {
+    cursor: pointer;
+    outline: none;
+    border: none; 
+    background: transparent; 
+    padding: 0; 
+    display: flex; 
+    justify-content: center;
+    align-items: center;
+    transition: transform 300ms;
+}
+.custom-button:hover {
+    transform: rotate(-180deg); 
+}
+.custom-svg {
+    stroke: #000000; 
+    fill: none;
+    transition: fill 300ms, stroke 300ms;
+}
+.custom-button:hover .custom-svg {
+    fill: #cf0000;
+}
+.custom-button:active .custom-svg {
+    stroke: #ffffff; 
+    fill: #000000; 
+    transition-duration: 0ms;
 }
