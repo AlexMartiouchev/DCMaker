@@ -1,0 +1,145 @@
+@font-face{
+    font-family: 'Pirata One';
+    src: url('../fonts/PirataOne-Regular.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+}
+@font-face{
+    font-family: 'uncial-antiqua';
+    src: url('../fonts/UncialAntiqua-Regular.ttf') format('truetype');
+}
+.body{
+    background-color: rgb(238, 210, 199);
+    background-image: url(paper.jpg);
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+
+.title{
+    background-color: rgb(187, 66, 66);
+    font-family: 'Pirata One', serif;
+    color: black;
+    text-align: center;
+    border: 4px solid black;
+}
+.topnav {
+    display: flex;
+    justify-content: center; 
+    align-items: center; 
+    flex-direction: row; 
+    background-color: rgb(187, 66, 66);
+    font-family: 'uncial-antiqua', serif;
+    color: black;
+    text-align: center;
+    border: 4px solid black;
+    width: 100%;
+    margin: 0;
+    padding: 0;
+}
+.topnav a {
+    flex: 1; 
+    text-align: center;
+    padding: 14px 16px;
+    text-decoration: none;
+    color: black; 
+}
+.topnav a:hover{
+    background-color: rgb(130, 0, 0);
+    color: grey;
+}
+.topnav a.active{
+    flex: 1;
+    text-align: center;
+    padding: 14px 16px;
+    text-decoration: none;
+    color: white;
+}
+.about{
+    background-color:rgb(110, 66, 64); 
+    color: black;
+    border: 2px solid black;
+    text-align: left;
+    margin: 20px auto;
+    padding: 10px;
+    width: 40%;
+    box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
+}
+.important{
+    font-size: larger;
+    text-shadow: 2px;
+    font-style: italic;
+    font-weight: bold;
+}
+.row {
+    display: flex;
+    justify-content: center;
+    width: 100%;
+}
+.column {
+    background-color: rgb(110, 66, 64);
+    color: black;
+    font-size: larger;
+    border: 2px solid black;
+    margin: 10px; 
+    padding: 10px;
+    width: 33.33%; 
+    box-sizing: border-box;
+}
+.form{
+    background-color:rgb(187, 66, 66);
+    border: 4px black;
+    width: 50%;
+    text-align: center;
+}
+.input[type=text]{
+    width: 50%;
+    border: 2px solid black;
+    border-radius: 4px;
+    padding: 10px 18px;
+    margin: 8px 0;
+    box-sizing: border-box;
+}
+.input[type=email]{
+    width: 50%;
+    border: 2px solid black;
+    border-radius: 4px;
+    padding: 10px 18px;
+    margin: 8px 0;
+    box-sizing: border-box;
+}
+.input[type=password]{
+    width: 50%;
+    border: 2px solid black;
+    border-radius: 4px;
+    padding: 10px 18px;
+    margin: 8px 0;
+    box-sizing: border-box;
+}
+.input:focus{
+    background-color: rgb(232, 169, 166);
+}
+.input[type=button], input[type=submit], input[type=reset]{
+    background-color: rgb(110, 66, 64);
+    border: none;
+    color: black;
+    padding: 10px 18px;
+    text-decoration: none;
+    margin: 4px 2px;
+    cursor: pointer;
+}
+.input[type=number]{
+    width: 20px;
+    border: 2px solid black;
+    border-radius: 4px;
+    padding: 5px 8px;
+    margin: 8px 0;
+    box-sizing: border-box;
+    display: inline-block;
+    vertical-align: middle; 
+}
+.label {
+    margin-right: 10px;
+    display: inline-block; 
+    vertical-align: middle; 
+}
+

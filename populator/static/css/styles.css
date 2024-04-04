@@ -1,10 +1,88 @@
 /* styles.css */
+@font-face{
+    font-family: 'Pirata One';
+    src: url('../fonts/PirataOne-Regular.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+}
+@font-face{
+    font-family: 'uncial-antiqua';
+    src: url('../fonts/UncialAntiqua-Regular.ttf') format('truetype');
+}
 body {
     font-family: Arial, sans-serif;
     background-color: #8a320a3b;
     padding: 50px;
 }
-
+.title{
+    background-color: rgb(187, 66, 66);
+    font-family: 'Pirata One', serif;
+    color: black;
+    text-align: center;
+    border: 4px solid black;
+}
+.topnav {
+    display: flex;
+    justify-content: center; 
+    align-items: center; 
+    flex-direction: row; 
+    background-color: rgb(187, 66, 66);
+    font-family: 'uncial-antiqua', serif;
+    color: black;
+    text-align: center;
+    border: 4px solid black;
+    width: 100%;
+    margin: 0;
+    padding: 0;
+}
+.topnav a {
+    flex: 1; 
+    text-align: center;
+    padding: 14px 16px;
+    text-decoration: none;
+    color: black; 
+}
+.topnav a:hover{
+    background-color: rgb(130, 0, 0);
+    color: grey;
+}
+.topnav a.active{
+    flex: 1;
+    text-align: center;
+    padding: 14px 16px;
+    text-decoration: none;
+    color: white;
+}
+.row {
+    display: flex;
+    justify-content: center;
+    width: 100%;
+}
+.column {
+    background-color: rgb(110, 66, 64);
+    color: black;
+    font-size: larger;
+    border: 2px solid black;
+    margin: 10px; 
+    padding: 10px;
+    width: 33.33%; 
+    box-sizing: border-box;
+}
+div.form{
+    display: block;
+    text-align: center;
+}
+.form{
+    display: flex;
+    flex-direction: column;
+    justify-content: center; 
+    align-items: center; 
+    margin: auto; 
+    background-color: rgb(187, 66, 66);
+    border: 4px solid black;
+    width: 70%;
+    padding: 20px; 
+}
 .container {
     background-color: #6d3600b3;
     padding: 30px;
@@ -13,27 +91,23 @@ body {
     max-width: 700px;
     margin: 0 auto;
 }
-
 .section {
     margin-bottom: 30px;
 }
-
 .input-group {
     margin-bottom: 20px;
 }
-
 label {
     display: block;
     margin-bottom: 5px;
 }
-
 input, textarea {
     width: 100%;
-    padding: 10px;
+    padding: 3px;
+    background-color: #864242;
     border: 1px solid #ccc;
     border-radius: 5px;
 }
-
 .add-button, .submit-button {
     padding: 10px 20px;
     background-color: rgb(150, 96, 43);
@@ -44,15 +118,12 @@ input, textarea {
     transition: background-color 0.3s;
     font-size: 1.5em;
 }
-
 .add-button:hover, .submit-button {
     background-color: rgba(139, 67, 0, 0.888);
 }
-
 .slideable {
     transition: transform 0.3s ease;
 }
-
 .button-container {
     display: flex;
     justify-content: center;
@@ -60,10 +131,15 @@ input, textarea {
     width: 100%;
     margin: 10px;
 }
-
 .input-group-horizontal {
     display: flex;
-    justify-content: flex-start;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    margin: auto;
+    padding: 2px;
+    padding-bottom: 4px;
+    width: 50%;
 }
 input[type=text],
 input[type=email],
@@ -88,7 +164,6 @@ input[type=reset]{
     text-decoration: none;
     margin: 4px 2px;
     cursor: pointer;
-    border-radius: 4px;
 }
 input[type=number]{
     width: 50px;
@@ -198,15 +273,6 @@ input:checked ~ .slider {
     justify-content: space-around;
     align-items: center;
 }
-button{
-    background-color: rgb(110, 66, 64);
-    color: black;
-    border: none;
-    padding: 10px 20px;
-    margin-top: 10px;
-    cursor: pointer;
-    border-radius: 4px;
-}
 p.top{
     font-family: 'uncial-antiqua', serif;
     font-size: 24px; 
@@ -216,42 +282,11 @@ p.main{
     font-size: medium;
     color: black;
 }
-.btn {
-    border: none;
-    width: 12em;
-    height: 4em;
-    border-radius: 3em;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    gap: 12px;
-    background: #550000;
-    cursor: pointer;
-    transition: all 450ms ease-in-out;
-}
-.sparkle {
-    fill: #AAAAAA;
-    transition: all 800ms ease;
-}
-.text {
-    font-weight: 600;
-    color: #AAAAAA;
+p.def{
     font-size: medium;
-}
-.btn:hover {
-    background: linear-gradient(0deg,#864242,#880000);
-    box-shadow: inset 0px 1px 0px 0px rgba(255, 255, 255, 0.4),
-    inset 0px -4px 0px 0px rgba(0, 0, 0, 0.2),
-    0px 0px 0px 4px rgba(255, 255, 255, 0.2),
-    0px 0px 180px 0px #790000;
-    transform: translateY(-2px);
-}
-.btn:hover .text {
-    color: white;
-}
-.btn:hover .sparkle {
-    fill: white;
-    transform: scale(1.2);
+    color: black;
+    margin: auto;
+    text-align: center;
 }
 .Add {
     position: relative;
@@ -360,8 +395,165 @@ p.main{
 .remove:active .remove_icon svg {
     transform: scale(0.8);
 }
+.btn-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 10px 0;
+    --color-text: #ffffff;
+    --color-background: #860e0e;
+    --color-outline: #550000;
+    --color-shadow: #00000080;
+}
+.btn-content {
+    display: flex;
+    align-items: center;
+    padding: 5px 30px;
+    text-decoration: none;
+    font-family: 'Poppins', sans-serif;
+    font-weight: 400;
+    font-size: 25px;
+    color: #ffffff;
+    background: #860e0e;
+    transition: 1s;
+    border-radius: 100px;
+    box-shadow: 0 0 0.2em 0 #860e0e;
+    justify-content: center;
+}
+.btn-content:hover, .btn-content:focus {
+    transition: 0.5s;
+    -webkit-animation: btn-content 1s;
+    animation: btn-content 1s;
+    outline: 0.1em solid transparent;
+    outline-offset: 0.2em;
+    box-shadow: 0 0 0.4em 0 #860e0e;
+}
+.btn-content .icon-arrow {
+    transition: 0.5s;
+    margin-right: 0px;
+    transform: scale(0.6);
+}
+.btn-content:hover .icon-arrow {
+    transition: 0.5s;
+    margin-right: 25px;
+}
+.icon-arrow {
+    width: 20px;
+    margin-left: 15px;
+    position: relative;
+    top: 6%;
+}
+  /* SVG */
+#arrow-icon-one {
+    transition: 0.4s;
+    transform: translateX(-60%);
+}
+#arrow-icon-two {
+    transition: 0.5s;
+    transform: translateX(-30%);
+}
+.btn-content:hover #arrow-icon-three {
+    animation: color_anim 1s infinite 0.2s;
+}
+.btn-content:hover #arrow-icon-one {
+    transform: translateX(0%);
+    animation: color_anim 1s infinite 0.6s;
+}
+.btn-content:hover #arrow-icon-two {
+    transform: translateX(0%);
+    animation: color_anim 1s infinite 0.4s;
+}
+  /* SVG animations */
+@keyframes color_anim {
+    0% {
+    fill: white;
+    }
+    50% {
+    fill: var(--color-background);
+    }
+    100% {
+    fill: white;
+    }
+}
+  /* Button animations */
+@-webkit-keyframes btn-content {
+    0% {
+    outline: 0.2em solid var(--color-background);
+    outline-offset: 0;
+    }
+}
+@keyframes btn-content {
+    0% {
+    outline: 0.2em solid var(--color-background);
+    outline-offset: 0;
+    }
+}
+.gbtn {
+    border: none;
+    width: 12em;
+    height: 4em;
+    border-radius: 3em;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 12px;
+    background: #550000;
+    cursor: pointer;
+    transition: all 450ms ease-in-out;
+}
+.sparkle {
+    fill: #AAAAAA;
+    transition: all 800ms ease;
+}
+.text {
+    font-weight: 600;
+    color: #AAAAAA;
+    font-size: medium;
+}
+.gbtn:hover {
+    background: linear-gradient(0deg,#864242,#880000);
+    box-shadow: inset 0px 1px 0px 0px rgba(255, 255, 255, 0.4),
+    inset 0px -4px 0px 0px rgba(0, 0, 0, 0.2),
+    0px 0px 0px 4px rgba(255, 255, 255, 0.2),
+    0px 0px 180px 0px #790000;
+    transform: translateY(-2px);
+}
+.gbtn:hover .text {
+    color: white;
+}
+.gbtn:hover .sparkle {
+    fill: white;
+    transform: scale(1.2);
+}
 @media only screen and (max-width: 600px) {
     .card-container {
     grid-template-columns: 1fr;
     }
+}
+.custom-button {
+    cursor: pointer;
+    outline: none;
+    border: none; 
+    background: transparent; 
+    padding: 0; 
+    display: flex; 
+    justify-content: center;
+    align-items: center;
+    transition: transform 300ms;
+}
+.custom-button:hover {
+    transform: rotate(-180deg); 
+}
+.custom-svg {
+    stroke: #000000; 
+    fill: none;
+    transition: fill 300ms, stroke 300ms;
+}
+.custom-button:hover .custom-svg {
+    fill: #cf0000;
+}
+.custom-button:active .custom-svg {
+    stroke: #ffffff; 
+    fill: #000000; 
+    transition-duration: 0ms;
 }
