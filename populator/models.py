@@ -8,6 +8,7 @@ class Location(models.Model):
     description = models.TextField()
     party_level = models.IntegerField()
     image = models.ImageField(upload_to="location_images/", null=True, blank=True)
+    prompt = models.TextField(null=True, blank=True)
     user = models.ForeignKey(
         settings.AUTH_USER_MODEL,
         on_delete=models.CASCADE,
@@ -22,12 +23,14 @@ class Location(models.Model):
 
 class Faction(models.Model):
     name = models.CharField(max_length=50)
+    alignment = models.CharField(max_length=2)
     faction_type = models.CharField(max_length=50)
     description = models.TextField()
     location = models.ForeignKey(
         Location, on_delete=models.CASCADE, related_name="factions"
     )
     image = models.ImageField(upload_to="faction_images/", null=True, blank=True)
+    prompt = models.TextField(null=True, blank=True)
 
     def __str__(self):
         return self.name
@@ -36,6 +39,7 @@ class Faction(models.Model):
 class Character(models.Model):
     name = models.CharField(max_length=50)
     description = models.TextField()
+    alignment = models.CharField(max_length=2)
     lead = models.BooleanField()
     race = models.CharField(max_length=20)
     profession = models.CharField(max_length=50, null=True)
