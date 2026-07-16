@@ -54,6 +54,14 @@ def generate_location():
     return call_open_api(prompt, parse_location_response)
 
 
+"""
+Location dictionary
+{"location_name": "",
+"location_description": "",
+"location_summary": ""}
+"""
+
+
 def generate_factions(location, num_factions=3):
     prompt = faction_prompt.format(
         location_name=location["name"],
@@ -63,8 +71,26 @@ def generate_factions(location, num_factions=3):
     return call_open_api(prompt, parse_faction_response)
 
 
+"""
+Faction dictionary of dictionaries
+{"faction_1": {
+    "name": "",
+    "type": "",
+    "alignment": "",
+    "description": "
+}
+"faction_x": {...}
+}
+"""
+
+
 def character_generator(
-    faction, faction_num: int, character_num: int, amount: int = 5, lead: bool = True
+    faction,
+    faction_num: int,
+    character_num: int,
+    amount: int = 5,
+    lead: bool = True,
+    party_level: int = 6,
 ):
     character_type = "Lead" if lead else "Mob"
     prompt = lead_character_prompt if lead else mob_character_prompt
@@ -83,11 +109,14 @@ def character_generator(
     character_list = []
     for character in character_desc:
         character_info = character
-        character_info["lead"] = lead
         prompt_start = sheet_prompt.format(
-            # faction_pk=faction["pk"],
-            character_info=character_info,
+            character_name=character["name"],
             character_type=character_type,
+            character_race=character["race"],
+            character_description=character["description"],
+            faction_name=faction["name"],
+            faction_description=faction["description"],
+            party_level=party_level,
         )
         character_combat_parse = call_open_api(prompt_start, parse_character_sheet)
         character_info["profession"] = character_combat_parse.pop("profession")
@@ -98,6 +127,20 @@ def character_generator(
         character_num += 1
         character_list.append(character)
     return character_list
+
+
+"""
+Characters list of dictionaries
+[
+    {"name": "",
+    "race": "",
+    "alignment": "",
+    "description": ""
+    },
+    {.....
+    }
+]
+"""
 
 
 start_time = time.perf_counter()
@@ -147,7 +190,7 @@ for faction_key, faction in factions.items():
         faction,
         faction_num=faction_key,
         character_num=character_num,
-        amount=1,
+        amount=3,
         lead=True,
     )
     mob_characters = character_generator(
