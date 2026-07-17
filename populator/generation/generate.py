@@ -23,6 +23,8 @@ from .schemas import (
     GeneratedCharacter,
     GeneratedFaction,
     GeneratedLocation,
+    MobArchetype,
+    MobArchetypeSet,
     RankDefinition,
     RankTier,
 )
@@ -79,7 +81,9 @@ def fill_roster(
     slots: list[RankDefinition],
     existing: list[GeneratedCharacter] | None = None,
 ) -> list[GeneratedCharacter]:
-    """Fill several empty slots in one call (planning mode).
+    """Fill several empty named-character slots in one call (planning
+    mode). Mob-tier slots don't belong here — they become archetypes
+    via generate_mob_archetypes.
 
     Sending the shared location/faction context once for the whole
     batch is much cheaper than one call per character. `slots` is
@@ -87,7 +91,8 @@ def fill_roster(
     positions counts are respected per slot.
     """
     slot_list = "\n".join(
-        f"- {s.positions} x {s.title} ({s.tier.value} tier)" for s in slots
+        f"- {s.positions} x {s.title} ({s.tier.value} tier, level {s.level})"
+        for s in slots
     )
     prompt = _prompt("roster_batch").format(
         slot_list=slot_list,
@@ -95,6 +100,24 @@ def fill_roster(
         **_faction_context(location, faction),
     )
     return generate(prompt, CharacterSet, SYSTEM).characters
+
+
+def generate_mob_archetypes(
+    location: GeneratedLocation,
+    faction: GeneratedFaction,
+    slots: list[RankDefinition],
+) -> list[MobArchetype]:
+    """One archetype per mob-tier slot, generated together so they
+    complement each other as a fighting force. Each archetype carries
+    instance_names for its table copies instead of being N characters."""
+    slot_list = "\n".join(
+        f"- {s.title}: {s.positions} copies" for s in slots
+    )
+    prompt = _prompt("mob_archetypes").format(
+        slot_list=slot_list,
+        **_faction_context(location, faction),
+    )
+    return generate(prompt, MobArchetypeSet, SYSTEM).archetypes
 
 
 def generate_character(
@@ -119,18 +142,34 @@ def generate_character(
     return generate(prompt, GeneratedCharacter, SYSTEM)
 
 
+def slot_for_title(
+    faction: GeneratedFaction, rank_title: str
+) -> RankDefinition:
+    """Find the hierarchy slot a character belongs to. Falls back to a
+    mid-hierarchy member slot if the title isn't found (e.g. the DM
+    typed a custom title)."""
+    for rank in faction.hierarchy:
+        if rank.title == rank_title:
+            return rank
+    return RankDefinition(
+        level=3, tier=RankTier.MEMBER, title=rank_title, positions=1
+    )
+
+
 def generate_combat_sheet(
-    character: GeneratedCharacter,
+    character: GeneratedCharacter | MobArchetype,
     faction: GeneratedFaction,
     party_level: int,
-    tier: RankTier,
+    slot: RankDefinition,
 ) -> CombatSheet:
-    """Stat one character, on demand. Mob-tier characters are balanced
-    to be fought in groups; everyone else matches or beats a single
-    party member of the same level."""
+    """Stat one character or mob archetype. The slot's tier and level
+    drive power scaling: level 1 = apex threat (and the only legitimate
+    holder of legendary actions), mobs = balanced for group fights."""
     prompt = _prompt("combat_sheet").format(
         character_name=character.name,
-        character_type="Mob" if tier is RankTier.MOB else "Lead",
+        rank_title=slot.title,
+        rank_tier=slot.tier.value,
+        rank_level=slot.level,
         character_race=character.race,
         character_description=character.description,
         faction_name=faction.name,
@@ -168,7 +207,9 @@ if __name__ == "__main__":
         print(f"*** {character.name} ({character.race}, {character.alignment.value}) — {character.rank_title} ***")
         print(character.description, "\n")
 
-    sheet = generate_combat_sheet(roster[0], faction, party_level=6, tier=RankTier.LEADERSHIP)
+    sheet = generate_combat_sheet(
+        roster[0], faction, party_level=6, slot=slot_for_title(faction, roster[0].rank_title)
+    )
     print(f"{sheet.profession} | HP {sheet.stats.hp} | AC {sheet.stats.ac}")
     for action in sheet.actions:
         print(f"  Action: {action.name} — {action.description}")

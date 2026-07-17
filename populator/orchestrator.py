@@ -12,6 +12,7 @@ from .generation.schemas import (
     GeneratedCharacter,
     GeneratedFaction,
     GeneratedLocation,
+    MobArchetype,
 )
 from .models import Character, Faction, Location
 
@@ -64,6 +65,21 @@ def save_character(faction: Faction, generated: GeneratedCharacter) -> Character
     )
 
 
+def save_mob_archetype(faction: Faction, archetype: MobArchetype) -> Character:
+    """A mob archetype is one Character row; its table copies live in
+    the instances JSON, not as separate rows."""
+    return Character.objects.create(
+        faction=faction,
+        name=archetype.name,
+        race=archetype.race,
+        alignment=archetype.alignment.value,
+        description=archetype.description,
+        rank_title=archetype.rank_title,
+        rank_tier=Character.RankTier.MOB,
+        instances=[{"name": name} for name in archetype.instance_names],
+    )
+
+
 def save_combat_sheet(character: Character, sheet: CombatSheet) -> Character:
     """Sheets are generated on demand, so this updates an existing row
     rather than creating one."""
@@ -71,3 +87,19 @@ def save_combat_sheet(character: Character, sheet: CombatSheet) -> Character:
     character.combat_sheet = sheet.model_dump(mode="json", exclude={"profession"})
     character.save()
     return character
+
+
+def unaffiliated_faction(location: Location) -> Faction:
+    """Return the location's catch-all faction for unaffiliated
+    characters, creating it on first use."""
+    faction, created = location.factions.get_or_create(
+        is_catchall=True,
+        defaults={
+            "name": "Unaffiliated",
+            "faction_type": "catch-all",
+            "alignment": "TN",
+            "description": f"Unaffiliated denizens of {location.name}",
+            "hierarchy": [],
+        },
+    )
+    return faction

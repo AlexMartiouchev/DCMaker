@@ -1,12 +1,17 @@
 """Generate and persist a complete demo setting.
 
 Usage:
-    python manage.py generate_demo "A drowned cathedral city" --factions 2 --sheets
+    python manage.py generate_demo "A drowned cathedral city" --factions 2
 
 Drives the whole pipeline step-by-step through the orchestrator's save
 functions, persisting after every successful step — if a step dies, the
 run stops but everything already saved stays saved (rerun costs only
 the missing pieces).
+
+Every character is fully statted by default: named characters get
+individual sheets scaled to their hierarchy level; each mob archetype
+gets one shared sheet for all its copies. --skip-sheets makes cheap
+test runs possible.
 """
 
 from django.core.management.base import BaseCommand
@@ -17,26 +22,25 @@ from populator.generation.schemas import RankTier
 
 
 class Command(BaseCommand):
-    help = "Generate a full demo setting (location, factions, rosters) and save it to the database."
+    help = "Generate a full demo setting (location, factions, rosters, sheets) and save it to the database."
 
     def add_arguments(self, parser):
         parser.add_argument("concept", help="The location concept to build from")
         parser.add_argument("--party-level", type=int, default=6)
         parser.add_argument("--factions", type=int, default=3)
         parser.add_argument(
-            "--sheets",
+            "--skip-sheets",
             action="store_true",
-            help="Also generate combat sheets for leadership-tier characters",
+            help="Skip combat sheet generation (cheaper test runs)",
         )
 
     def handle(self, *args, **options):
         concept = options["concept"]
+        party_level = options["party_level"]
 
         self.stdout.write(f"Generating location for: {concept!r} ...")
         gen_location = engine.generate_location(concept)
-        location = orchestrator.save_location(
-            gen_location, party_level=options["party_level"]
-        )
+        location = orchestrator.save_location(gen_location, party_level=party_level)
         self.stdout.write(
             self.style.SUCCESS(f"  Saved location #{location.pk}: {location.name}")
         )
@@ -55,28 +59,50 @@ class Command(BaseCommand):
                 )
             )
 
-            try:
-                roster = engine.fill_roster(
-                    gen_location, gen_faction, gen_faction.hierarchy
-                )
-                for gen_character in roster:
-                    character = orchestrator.save_character(faction, gen_character)
-                    self.stdout.write(
-                        f"    {character.rank_title}: {character.name}"
-                    )
+            named_slots = [
+                s for s in gen_faction.hierarchy if s.tier is not RankTier.MOB
+            ]
+            mob_slots = [s for s in gen_faction.hierarchy if s.tier is RankTier.MOB]
 
-                    if options["sheets"] and character.rank_tier == RankTier.LEADERSHIP:
+            try:
+                for gen_character in engine.fill_roster(
+                    gen_location, gen_faction, named_slots
+                ):
+                    character = orchestrator.save_character(faction, gen_character)
+                    line = f"    {character.rank_title}: {character.name}"
+                    if not options["skip_sheets"]:
                         sheet = engine.generate_combat_sheet(
                             gen_character,
                             gen_faction,
-                            party_level=options["party_level"],
-                            tier=RankTier.LEADERSHIP,
+                            party_level=party_level,
+                            slot=engine.slot_for_title(
+                                gen_faction, gen_character.rank_title
+                            ),
                         )
                         orchestrator.save_combat_sheet(character, sheet)
-                        self.stdout.write(
-                            f"      statted: {sheet.profession}, "
-                            f"HP {sheet.stats.hp}, AC {sheet.stats.ac}"
+                        line += f" [{sheet.profession}, HP {sheet.stats.hp}, AC {sheet.stats.ac}"
+                        if sheet.legendary_actions:
+                            line += f", LEGENDARY x{len(sheet.legendary_actions)}"
+                        line += "]"
+                    self.stdout.write(line)
+
+                for archetype in engine.generate_mob_archetypes(
+                    gen_location, gen_faction, mob_slots
+                ):
+                    character = orchestrator.save_mob_archetype(faction, archetype)
+                    copies = ", ".join(n["name"] for n in character.instances)
+                    line = f"    {character.rank_title} (mob x{len(character.instances)}): {character.name} [{copies}]"
+                    if not options["skip_sheets"]:
+                        sheet = engine.generate_combat_sheet(
+                            archetype,
+                            gen_faction,
+                            party_level=party_level,
+                            slot=engine.slot_for_title(
+                                gen_faction, archetype.rank_title
+                            ),
                         )
+                        orchestrator.save_combat_sheet(character, sheet)
+                    self.stdout.write(line)
             except Exception as exc:  # keep other factions alive per failure policy
                 self.stderr.write(
                     self.style.ERROR(

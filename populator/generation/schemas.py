@@ -146,8 +146,16 @@ class CombatSheet(BaseModel):
     actions: list[NamedEffect] = Field(
         description="2-4 combat actions the character can take"
     )
-    abilities: list[NamedEffect] = Field(
-        description="1-3 passive or special abilities"
+    abilities: list[NamedEffect] = Field(description="1-3 passive or special abilities")
+    legendary_actions: list[NamedEffect] = Field(
+        description=(
+            "Empty for almost everyone. Only apex threats (hierarchy level 1 "
+            "leadership of a major faction) may have 2-3 legendary actions — "
+            "special actions taken at the end of other creatures' turns. Each "
+            "description must state what it does, its action cost (1-3), and "
+            "that the budget is 3 legendary actions per round, regained at the "
+            "start of the creature's turn."
+        )
     )
 
 
@@ -181,3 +189,35 @@ class CharacterSet(BaseModel):
     model makes them distinct from each other."""
 
     characters: list[GeneratedCharacter]
+
+
+class MobArchetype(BaseModel):
+    """One mob-tier rank = one archetype: a single stat-sharing template
+    (e.g. 'Veiled Blade') that appears at the table as several named
+    copies. Copies live in instance_names, not as separate characters."""
+
+    name: str = Field(
+        description="Generic descriptive archetype name, e.g. 'Sword-wielding Guard', 'Chant-Speaker'"
+    )
+    race: str = Field(description="e.g. 'Human', 'Giant Spider', 'Animated Armor'")
+    alignment: Alignment
+    rank_title: str = Field(
+        description="The mob rank this archetype embodies, copied exactly from the slot"
+    )
+    description: str = Field(
+        description="At most 2 sentences of combat-relevant flavor"
+    )
+    instance_names: list[str] = Field(
+        description=(
+            "Thematic individual names or nicknames for each copy present, "
+            "exactly as many as the slot's positions count, e.g. "
+            "['Sister Vex', 'Brother Hollow']"
+        )
+    )
+
+
+class MobArchetypeSet(BaseModel):
+    """All of one faction's mob archetypes, generated together so they
+    complement each other as a fighting force."""
+
+    archetypes: list[MobArchetype]

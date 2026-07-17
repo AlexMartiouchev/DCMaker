@@ -28,6 +28,7 @@ class Faction(models.Model):
     faction_type = models.CharField(max_length=50)
     description = models.TextField()
     hierarchy = models.JSONField(default=list, blank=True)
+    is_catchall = models.BooleanField(default=False)
     location = models.ForeignKey(
         Location, on_delete=models.CASCADE, related_name="factions"
     )
@@ -64,6 +65,9 @@ class Character(models.Model):
     faction = models.ForeignKey(
         Faction, on_delete=models.CASCADE, related_name="characters"
     )
+
+    instances = models.JSONField(default=list, blank=True)
+    # [{"name": "Sister Vex"}, {"name": "Brother Hollow"}, ...]
 
     def __str__(self):
         return self.name
