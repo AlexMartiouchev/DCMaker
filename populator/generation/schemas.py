@@ -64,6 +64,12 @@ class RankDefinition(BaseModel):
     faction itself is generated. positions -> how many character card
     slots the UI pre-renders for this rank."""
 
+    level: int = Field(
+        description=(
+            "Numeric seniority: 1 is the top of the faction, increasing "
+            "downward. Ranks sharing a level are peers (parallel branches)."
+        )
+    )
     tier: RankTier
     title: str = Field(
         description=(
@@ -75,12 +81,6 @@ class RankDefinition(BaseModel):
         description=(
             "How many characters hold this rank. Leadership ranks: 1-3. "
             "Mob ranks: 2-6 generic rank-and-file combatants."
-        )
-    )
-    reports_to: str | None = Field(
-        description=(
-            "The title of the rank this one answers to, exactly as written in "
-            "this hierarchy. null only for the top rank."
         )
     )
 
@@ -99,10 +99,11 @@ class GeneratedFaction(BaseModel):
     )
     hierarchy: list[RankDefinition] = Field(
         description=(
-            "The faction's org chart, 3-6 ranks. Choose a structure that fits "
-            "the faction: lone commander, council of equals, prophet with an "
-            "inner circle. Include at least one mob-tier rank for the generic "
-            "rank-and-file."
+            "The faction's org chart, 3-6 ranks, ordered strictly from most "
+            "senior to most junior — each rank answers to the one before it. "
+            "Choose a structure that fits the faction: lone commander, council "
+            "of equals, prophet with an inner circle. Include at least one "
+            "mob-tier rank (the generic rank-and-file) last."
         )
     )
 

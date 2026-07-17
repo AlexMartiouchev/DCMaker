@@ -155,9 +155,8 @@ if __name__ == "__main__":
         print(f"--- {faction.name} [{faction.faction_type}, {faction.alignment.value}] ---")
         print(faction.description)
         print("Hierarchy:")
-        for rank in faction.hierarchy:
-            reports = f" -> reports to {rank.reports_to}" if rank.reports_to else " (top)"
-            print(f"  {rank.positions} x {rank.title} [{rank.tier.value}]{reports}")
+        for rank in sorted(faction.hierarchy, key=lambda r: r.level):
+            print(f"  L{rank.level}: {rank.positions} x {rank.title} [{rank.tier.value}]")
         print()
 
     # Fill only the leadership slots of the first faction (keeps the
