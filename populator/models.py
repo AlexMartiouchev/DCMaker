@@ -6,6 +6,7 @@ class Location(models.Model):
     name = models.CharField(max_length=50)
     location_type = models.CharField(max_length=50)
     description = models.TextField()
+    summary = models.TextField(blank=True, default="")
     party_level = models.IntegerField()
     image = models.ImageField(upload_to="location_images/", null=True, blank=True)
     prompt = models.TextField(null=True, blank=True)
@@ -26,6 +27,7 @@ class Faction(models.Model):
     alignment = models.CharField(max_length=2)
     faction_type = models.CharField(max_length=50)
     description = models.TextField()
+    hierarchy = models.JSONField(default=list, blank=True)
     location = models.ForeignKey(
         Location, on_delete=models.CASCADE, related_name="factions"
     )
@@ -37,11 +39,20 @@ class Faction(models.Model):
 
 
 class Character(models.Model):
+    class RankTier(models.TextChoices):
+        LEADERSHIP = "leadership"
+        OFFICER = "officer"
+        MEMBER = "member"
+        MOB = "mob"
+
+    rank_tier = models.CharField(
+        max_length=10, choices=RankTier.choices, default=RankTier.MEMBER
+    )
+    rank_title = models.CharField(max_length=50, default="")
     name = models.CharField(max_length=50)
     description = models.TextField()
     alignment = models.CharField(max_length=2)
-    lead = models.BooleanField()
-    race = models.CharField(max_length=20)
+    race = models.CharField(max_length=50)
     profession = models.CharField(max_length=50, null=True)
     combat_sheet = models.JSONField(default=dict, null=True)
     image_hs = models.ImageField(
