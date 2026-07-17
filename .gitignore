@@ -46,3 +46,6 @@ prompts/
 
 # Local docs
 docs/
+
+# macOS junk
+.DS_Store
