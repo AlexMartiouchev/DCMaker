@@ -14,11 +14,11 @@ from .generation.schemas import (
     GeneratedLocation,
     MobArchetype,
 )
-from .models import Character, Faction, Location
+from .models import Campaign, Character, Faction, Location
 
 
 def save_location(
-    generated: GeneratedLocation, party_level: int, user=None
+    generated: GeneratedLocation, party_level: int, campaign: Campaign | None = None
 ) -> Location:
     return Location.objects.create(
         name=generated.name,
@@ -26,7 +26,7 @@ def save_location(
         description=generated.description,
         summary=generated.summary,
         party_level=party_level,
-        user=user,
+        campaign=campaign,
     )
 
 
