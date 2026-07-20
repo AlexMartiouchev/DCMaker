@@ -1,0 +1,40 @@
+{% extends "populator/base.html" %}
+{% block title %}{{ faction.name }} — DCMaker{% endblock %}
+{% block crumbs %}<a href="{% url 'campaign_list' %}">campaigns</a> /
+    {% if faction.location.campaign %}<a href="{% url 'campaign_detail' faction.location.campaign.pk %}">{{ faction.location.campaign.name }}</a> /{% endif %}
+    <a href="{% url 'location_detail' faction.location.pk %}">{{ faction.location.name }}</a> /
+    {{ faction.name }}{% endblock %}
+{% block content %}
+<h1>{{ faction.name }}</h1>
+<p class="sub">{{ faction.faction_type }} · {{ faction.alignment }}</p>
+<p>{{ faction.description|linebreaks }}</p>
+
+{% for group in groups %}
+<h2>
+    {{ group.rank.title }}
+    {% if group.rank.tier %}<span class="badge {{ group.rank.tier }}">{{ group.rank.tier }}</span>{% endif %}
+</h2>
+<div class="cards">
+    {% for character in group.characters %}
+    <div class="card">
+        <a href="#">{{ character.name }}</a>
+        {% if character.combat_sheet.legendary_actions %}<span class="badge legendary">legendary</span>{% endif %}
+        <div class="meta">{{ character.race }} · {{ character.alignment }}{% if character.profession %} · {{ character.profession }}{% endif %}</div>
+        <p>{{ character.description|truncatewords:35 }}</p>
+        {% if character.combat_sheet.stats %}
+        <div class="stats">HP {{ character.combat_sheet.stats.hp }} · AC {{ character.combat_sheet.stats.ac }}</div>
+        {% endif %}
+        {% if character.instances %}
+        <details>
+            <summary>{{ character.instances|length }} at the table</summary>
+            {% for instance in character.instances %}<span class="chip">{{ instance.name }}</span>{% endfor %}
+        </details>
+        {% endif %}
+    </div>
+    {% endfor %}
+    {% for _ in group.empty_slots %}
+    <div class="card empty">empty slot — generation coming soon</div>
+    {% endfor %}
+</div>
+{% endfor %}
+{% endblock %}

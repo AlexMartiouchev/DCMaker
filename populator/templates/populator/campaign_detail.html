@@ -1,0 +1,19 @@
+{% extends "populator/base.html" %}
+{% block title %}{{ campaign.name }} — DCMaker{% endblock %}
+{% block crumbs %}<a href="{% url 'campaign_list' %}">campaigns</a> / {{ campaign.name }}{% endblock %}
+{% block content %}
+<h1>{{ campaign.name }}</h1>
+<p class="sub">{{ campaign.description }}</p>
+<h2>Locations</h2>
+<div class="cards">
+    {% for location in campaign.locations.all %}
+    <div class="card">
+        <a href="{% url 'location_detail' location.pk %}">{{ location.name }}</a>
+        <div class="meta">{{ location.location_type }} · party level {{ location.party_level }}</div>
+        <p>{{ location.summary|truncatewords:30 }}</p>
+    </div>
+    {% empty %}
+    <div class="card empty">No locations yet.</div>
+    {% endfor %}
+</div>
+{% endblock %}

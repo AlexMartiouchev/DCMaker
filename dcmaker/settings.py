@@ -127,6 +127,9 @@ STATIC_URL = "static/"
 
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
+# Where @login_required sends anonymous visitors
+LOGIN_URL = "login"
+
 # Base directory for media files
 MEDIA_ROOT = os.path.join(BASE_DIR, "media")
 # URL to use when referring to media files (images, etc.)

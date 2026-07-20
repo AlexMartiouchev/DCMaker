@@ -1,0 +1,17 @@
+{% extends "populator/base.html" %}
+{% block title %}Campaigns — DCMaker{% endblock %}
+{% block content %}
+<h1>Your Campaigns</h1>
+<p class="sub">Every world you're running.</p>
+<div class="cards">
+    {% for campaign in campaigns %}
+    <div class="card">
+        <a href="{% url 'campaign_detail' campaign.pk %}">{{ campaign.name }}</a>
+        <div class="meta">{{ campaign.locations.count }} location{{ campaign.locations.count|pluralize }}</div>
+        <p>{{ campaign.description|truncatewords:25 }}</p>
+    </div>
+    {% empty %}
+    <div class="card empty">No campaigns yet — create one in the admin for now.</div>
+    {% endfor %}
+</div>
+{% endblock %}
