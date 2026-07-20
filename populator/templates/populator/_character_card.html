@@ -1,5 +1,9 @@
 {# One character card. Included by faction_detail; will be the htmx swap target later. #}
 <div class="card character">
+    <button class="del" title="Delete {{ character.name }}"
+            hx-post="{% url 'character_delete' character.pk %}"
+            hx-confirm="Delete {{ character.name }}? This cannot be undone."
+            hx-target="closest .card" hx-swap="outerHTML">✕</button>
     <div class="cardtop">
         <div class="portrait">🎭<span>art pending</span></div>
         <div>

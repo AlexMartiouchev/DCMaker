@@ -10,8 +10,15 @@
         <div class="meta">{{ campaign.locations.count }} location{{ campaign.locations.count|pluralize }}</div>
         <p>{{ campaign.description|truncatewords:25 }}</p>
     </div>
-    {% empty %}
-    <div class="card empty">No campaigns yet — create one in the admin for now.</div>
     {% endfor %}
+    <details class="card plus" {% if not campaigns %}open{% endif %}>
+        <summary>＋</summary>
+        <form class="slotform" method="post" action="{% url 'campaign_create' %}">
+            {% csrf_token %}
+            <input type="text" name="name" placeholder="Campaign name" maxlength="100" required>
+            <textarea name="description" rows="2" placeholder="What's this campaign about? (optional)"></textarea>
+            <button type="submit">Create campaign</button>
+        </form>
+    </details>
 </div>
 {% endblock %}

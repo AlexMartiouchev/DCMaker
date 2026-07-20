@@ -1,0 +1,5 @@
+<div class="card">
+    <a href="{% url 'location_detail' location.pk %}">{{ location.name }}</a>
+    <div class="meta">{{ location.location_type }} · party level {{ location.party_level }}</div>
+    <p>{{ location.summary|truncatewords:30 }}</p>
+</div>
