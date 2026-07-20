@@ -10,7 +10,11 @@ can only ever see their own campaigns' content.
 
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import get_object_or_404, render
+from django.views.decorators.http import require_POST
 
+from . import orchestrator
+from .generation import generate as engine
+from .generation.schemas import RankTier
 from .models import Campaign, Faction, Location
 
 
@@ -65,3 +69,40 @@ def faction_detail(request, pk):
         "populator/faction_detail.html",
         {"faction": faction, "groups": groups},
     )
+
+
+@login_required
+@require_POST
+def generate_character_slot(request, pk):
+    """htmx endpoint: fill one empty slot. Returns a single character
+    card fragment that swaps in place of the empty-slot form."""
+    faction = get_object_or_404(
+        Faction, pk=pk, location__campaign__owner=request.user
+    )
+    rank_title = request.POST.get("rank_title", "")
+    hints = request.POST.get("hints", "").strip()
+
+    gen_location = orchestrator.to_generated_location(faction.location)
+    gen_faction = orchestrator.to_generated_faction(faction)
+    slot = engine.slot_for_title(gen_faction, rank_title)
+    party_level = faction.location.party_level
+
+    if slot.tier is RankTier.MOB:
+        archetype = engine.generate_mob_archetypes(gen_location, gen_faction, [slot])[0]
+        character = orchestrator.save_mob_archetype(faction, archetype)
+        sheet_subject = archetype
+    else:
+        generated = engine.generate_character(
+            gen_location,
+            gen_faction,
+            slot,
+            existing=orchestrator.to_generated_characters(faction),
+            user_hints=hints,
+        )
+        character = orchestrator.save_character(faction, generated)
+        sheet_subject = generated
+
+    sheet = engine.generate_combat_sheet(sheet_subject, gen_faction, party_level, slot)
+    orchestrator.save_combat_sheet(character, sheet)
+
+    return render(request, "populator/_character_card.html", {"character": character})

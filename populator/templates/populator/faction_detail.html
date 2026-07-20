@@ -19,8 +19,34 @@
     {% include "populator/_character_card.html" %}
     {% endfor %}
     {% for _ in group.empty_slots %}
-    <div class="card empty">empty slot — generation coming soon</div>
+    <form class="card empty slotform"
+          hx-post="{% url 'generate_character_slot' faction.pk %}"
+          hx-swap="outerHTML"
+          hx-disabled-elt="find button">
+        {% csrf_token %}
+        <input type="hidden" name="rank_title" value="{{ group.rank.title }}">
+        <textarea name="hints" rows="2"
+                  placeholder="Optional direction for this {{ group.rank.title }}..."></textarea>
+        <button type="submit">⚔ Generate</button>
+        <span class="htmx-indicator">consulting the fates…</span>
+    </form>
     {% endfor %}
+    <details class="card plus">
+        <summary>＋</summary>
+        <form class="slotform"
+              hx-post="{% url 'generate_character_slot' faction.pk %}"
+              hx-target="closest details"
+              hx-swap="beforebegin"
+              hx-disabled-elt="find button"
+              hx-on::after-request="this.reset(); this.closest('details').open = false">
+            {% csrf_token %}
+            <input type="hidden" name="rank_title" value="{{ group.rank.title }}">
+            <textarea name="hints" rows="2"
+                      placeholder="Optional direction for another {{ group.rank.title }}..."></textarea>
+            <button type="submit">⚔ Generate another</button>
+            <span class="htmx-indicator">consulting the fates…</span>
+        </form>
+    </details>
 </div>
 {% endfor %}
 {% endblock %}

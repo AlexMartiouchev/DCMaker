@@ -13,8 +13,48 @@ from .generation.schemas import (
     GeneratedFaction,
     GeneratedLocation,
     MobArchetype,
+    RankDefinition,
 )
 from .models import Campaign, Character, Faction, Location
+
+
+# --- DB -> pydantic reconstruction ----------------------------------------
+# The UI generates one card at a time against *stored* campaign data, so
+# the engine's context objects are rebuilt from rows rather than carried
+# over from a live pipeline run.
+
+
+def to_generated_location(location: Location) -> GeneratedLocation:
+    return GeneratedLocation(
+        name=location.name,
+        location_type=location.location_type,
+        description=location.description,
+        summary=location.summary or location.description,
+    )
+
+
+def to_generated_faction(faction: Faction) -> GeneratedFaction:
+    return GeneratedFaction(
+        name=faction.name,
+        faction_type=faction.faction_type,
+        alignment=faction.alignment,
+        description=faction.description,
+        hierarchy=[RankDefinition(**rank) for rank in faction.hierarchy],
+    )
+
+
+def to_generated_characters(faction: Faction) -> list[GeneratedCharacter]:
+    """Existing roster as engine context (so new characters don't clash)."""
+    return [
+        GeneratedCharacter(
+            name=c.name,
+            race=c.race,
+            alignment=c.alignment,
+            rank_title=c.rank_title,
+            description=c.description,
+        )
+        for c in faction.characters.all()
+    ]
 
 
 def save_location(
