@@ -8,4 +8,9 @@ urlpatterns = [
     path("campaigns/<int:pk>/", views.campaign_detail, name="campaign_detail"),
     path("locations/<int:pk>/", views.location_detail, name="location_detail"),
     path("factions/<int:pk>/", views.faction_detail, name="faction_detail"),
+    path(
+        "factions/<int:pk>/generate/",
+        views.generate_character_slot,
+        name="generate_character_slot",
+    ),
 ]

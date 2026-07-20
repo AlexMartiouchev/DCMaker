@@ -5,6 +5,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>{% block title %}DCMaker{% endblock %}</title>
+    <script src="https://cdn.jsdelivr.net/npm/htmx.org@2.0.4/dist/htmx.min.js"></script>
     <style>
         :root {
             --bg: #16151c; --panel: #211f2b; --edge: #35323f;
@@ -55,6 +56,20 @@
         .effect.legendary { border-left-color: #7a4fb0; }
         .effecthead { display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 0.15rem; }
         .effecthead .kind { font-size: 0.68rem; color: var(--dim); text-transform: uppercase; letter-spacing: 0.05em; }
+        .slotform { flex-direction: column; gap: 0.5rem; padding: 0.9rem; }
+        .slotform textarea { width: 100%; background: var(--bg); border: 1px solid var(--edge);
+                             border-radius: 4px; color: var(--text); font-family: inherit;
+                             font-size: 0.85rem; padding: 0.4rem; resize: vertical; }
+        .slotform button { background: var(--accent); color: var(--bg); border: none; border-radius: 4px;
+                           padding: 0.4rem 0.9rem; font-family: inherit; font-weight: bold; cursor: pointer; }
+        .slotform button:disabled { opacity: 0.5; cursor: wait; }
+        .htmx-indicator { display: none; color: var(--accent); font-style: italic; font-size: 0.85rem; }
+        .htmx-request .htmx-indicator, .htmx-request.htmx-indicator { display: inline; }
+        .card.plus { border-style: dashed; color: var(--dim); }
+        .card.plus summary { cursor: pointer; list-style: none; text-align: center;
+                             font-size: 1.6rem; line-height: 2.2rem; }
+        .card.plus[open] summary { text-align: left; font-size: 1rem; }
+        .card.plus form { display: flex; flex-direction: column; gap: 0.5rem; margin-top: 0.4rem; }
     </style>
 </head>
 <body>
