@@ -9,6 +9,21 @@
 <p class="sub">{{ faction.faction_type }} · {{ faction.alignment }}</p>
 <p>{{ faction.description|linebreaks }}</p>
 
+<div class="toolbar">
+    {% if not has_characters %}
+    <form method="post" action="{% url 'generate_roster_batch' faction.pk %}"
+          onsubmit="var b=this.querySelector('button'); b.disabled=true; b.textContent='Generating full roster — this takes a few minutes…';">
+        {% csrf_token %}
+        <button type="submit" class="accentbtn">⚔ Generate full roster</button>
+    </form>
+    {% endif %}
+    <button class="dangerbtn"
+            hx-post="{% url 'faction_delete' faction.pk %}"
+            hx-confirm="Delete {{ faction.name }} and ALL its characters? This cannot be undone.">
+        ✕ Delete faction
+    </button>
+</div>
+
 {% for group in groups %}
 <h2>
     {{ group.rank.title }}
@@ -18,19 +33,9 @@
     {% for character in group.characters %}
     {% include "populator/_character_card.html" %}
     {% endfor %}
-    {% for _ in group.empty_slots %}
-    <form class="card empty slotform"
-          hx-post="{% url 'generate_character_slot' faction.pk %}"
-          hx-swap="outerHTML"
-          hx-disabled-elt="find button">
-        {% csrf_token %}
-        <input type="hidden" name="rank_title" value="{{ group.rank.title }}">
-        <textarea name="hints" rows="2"
-                  placeholder="Optional direction for this {{ group.rank.title }}..."></textarea>
-        <button type="submit">⚔ Generate</button>
-        <span class="htmx-indicator">consulting the fates…</span>
-    </form>
-    {% endfor %}
+    {% if group.remaining > 0 %}
+    {% include "populator/_slot_form.html" with rank_title=group.rank.title remaining=group.remaining %}
+    {% endif %}
     <details class="card plus">
         <summary>＋</summary>
         <form class="slotform"
@@ -49,4 +54,30 @@
     </details>
 </div>
 {% endfor %}
+
+<h2>Mobs <span class="badge mob">shared stat blocks</span></h2>
+<div class="cards">
+    {% for character in mob_archetypes %}
+    {% include "populator/_character_card.html" %}
+    {% endfor %}
+    {% for rank in mob_unfilled %}
+    {% include "populator/_slot_form.html" with rank_title=rank.title remaining=1 tier="mob" %}
+    {% endfor %}
+    <details class="card plus">
+        <summary>＋</summary>
+        <form class="slotform"
+              hx-post="{% url 'generate_character_slot' faction.pk %}"
+              hx-target="closest details"
+              hx-swap="beforebegin"
+              hx-disabled-elt="find button"
+              hx-on::after-request="this.reset(); this.closest('details').open = false">
+            {% csrf_token %}
+            <input type="hidden" name="tier" value="mob">
+            <input type="text" name="rank_title" placeholder="New mob type — e.g. 'Lantern Hound'" required>
+            <textarea name="hints" rows="2" placeholder="Optional direction..."></textarea>
+            <button type="submit">⚔ Generate archetype</button>
+            <span class="htmx-indicator">consulting the fates…</span>
+        </form>
+    </details>
+</div>
 {% endblock %}

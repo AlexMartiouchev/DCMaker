@@ -8,15 +8,24 @@
 <p class="sub">{{ location.location_type }} · party level {{ location.party_level }}</p>
 <p>{{ location.description|linebreaks }}</p>
 <h2>Factions</h2>
-<div class="cards">
-    {% for faction in location.factions.all %}
-    <div class="card">
-        <a href="{% url 'faction_detail' faction.pk %}">{{ faction.name }}</a>
-        <div class="meta">{{ faction.faction_type }} · {{ faction.alignment }}{% if faction.is_catchall %} · catch-all{% endif %}</div>
-        <p>{{ faction.description|truncatewords:30 }}</p>
-    </div>
-    {% empty %}
-    <div class="card empty">No factions yet.</div>
-    {% endfor %}
+<div class="cards" id="factions">
+    {% include "populator/_faction_cards.html" with factions=location.factions.all %}
+    <details class="card plus">
+        <summary>＋</summary>
+        <form class="slotform"
+              hx-post="{% url 'generate_faction_slots' location.pk %}"
+              hx-target="closest details"
+              hx-swap="beforebegin"
+              hx-disabled-elt="find button"
+              hx-on::after-request="this.reset(); this.closest('details').open = false">
+            {% csrf_token %}
+            <textarea name="hints" rows="3"
+                      placeholder="Optional direction — e.g. 'a smugglers' ring using the old mine tunnels'..."></textarea>
+            <label class="meta">How many? 1 adds a single faction that contrasts with the existing ones; more generates a contrasting batch.</label>
+            <input type="number" name="num_factions" value="1" min="1" max="5">
+            <button type="submit">⚔ Generate faction(s)</button>
+            <span class="htmx-indicator">stirring up rivalries…</span>
+        </form>
+    </details>
 </div>
 {% endblock %}

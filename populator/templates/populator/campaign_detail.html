@@ -5,15 +5,25 @@
 <h1>{{ campaign.name }}</h1>
 <p class="sub">{{ campaign.description }}</p>
 <h2>Locations</h2>
-<div class="cards">
+<div class="cards" id="locations">
     {% for location in campaign.locations.all %}
-    <div class="card">
-        <a href="{% url 'location_detail' location.pk %}">{{ location.name }}</a>
-        <div class="meta">{{ location.location_type }} · party level {{ location.party_level }}</div>
-        <p>{{ location.summary|truncatewords:30 }}</p>
-    </div>
-    {% empty %}
-    <div class="card empty">No locations yet.</div>
+    {% include "populator/_location_card.html" %}
     {% endfor %}
+    <details class="card plus">
+        <summary>＋</summary>
+        <form class="slotform"
+              hx-post="{% url 'generate_location_slot' campaign.pk %}"
+              hx-target="closest details"
+              hx-swap="beforebegin"
+              hx-disabled-elt="find button"
+              hx-on::after-request="this.reset(); this.closest('details').open = false">
+            {% csrf_token %}
+            <textarea name="concept" rows="3"
+                      placeholder="Location concept — e.g. 'a mining town sealed inside a mysterious veil'..."></textarea>
+            <input type="number" name="party_level" value="5" min="1" max="20" title="Party level">
+            <button type="submit">⚔ Generate location</button>
+            <span class="htmx-indicator">raising the land from the mists…</span>
+        </form>
+    </details>
 </div>
 {% endblock %}

@@ -70,9 +70,23 @@
                              font-size: 1.6rem; line-height: 2.2rem; }
         .card.plus[open] summary { text-align: left; font-size: 1rem; }
         .card.plus form { display: flex; flex-direction: column; gap: 0.5rem; margin-top: 0.4rem; }
+        .slotform input[type="text"], .slotform input[type="number"] {
+            background: var(--bg); border: 1px solid var(--edge); border-radius: 4px;
+            color: var(--text); font-family: inherit; font-size: 0.85rem; padding: 0.4rem; }
+        .del { background: none; border: none; color: var(--dim); cursor: pointer;
+               font-size: 0.9rem; float: right; padding: 0 0.2rem; }
+        .del:hover { color: var(--leadership); }
+        .dangerbtn { background: none; border: 1px solid var(--leadership); color: var(--leadership);
+                     border-radius: 4px; padding: 0.3rem 0.7rem; font-family: inherit;
+                     font-size: 0.85rem; cursor: pointer; }
+        .dangerbtn:hover { background: var(--leadership); color: #fff; }
+        .toolbar { display: flex; gap: 0.6rem; align-items: center; margin: 0.8rem 0; }
+        .toolbar .accentbtn { background: var(--accent); color: var(--bg); border: none;
+                              border-radius: 4px; padding: 0.35rem 0.8rem; font-family: inherit;
+                              font-weight: bold; cursor: pointer; }
     </style>
 </head>
-<body>
+<body hx-headers='{"X-CSRFToken": "{{ csrf_token }}"}'>
     <header>
         <a href="{% url 'campaign_list' %}">⚔ DCMaker</a>
         <span class="crumbs">{% block crumbs %}{% endblock %}</span>

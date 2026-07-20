@@ -1,0 +1,17 @@
+{# One empty-slot form; swaps out for the generated card + next form. #}{% comment %}
+Multi-line notes belong in comment blocks like this one — a {# #} spanning
+two lines renders as page text (we learned this the visible way).
+{% endcomment %}
+<form class="card empty slotform"
+      hx-post="{% url 'generate_character_slot' faction.pk %}"
+      hx-swap="outerHTML"
+      hx-disabled-elt="find button">
+    {% csrf_token %}
+    <input type="hidden" name="rank_title" value="{{ rank_title }}">
+    <input type="hidden" name="remaining" value="{{ remaining }}">
+    {% if tier %}<input type="hidden" name="tier" value="{{ tier }}">{% endif %}
+    <textarea name="hints" rows="2"
+              placeholder="Optional direction for this {{ rank_title }}..."></textarea>
+    <button type="submit">⚔ Generate{% if remaining > 1 %} (1 of {{ remaining }}){% endif %}</button>
+    <span class="htmx-indicator">consulting the fates…</span>
+</form>

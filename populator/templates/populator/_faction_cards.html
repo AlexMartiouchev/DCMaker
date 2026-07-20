@@ -1,0 +1,7 @@
+{% for faction in factions %}
+<div class="card">
+    <a href="{% url 'faction_detail' faction.pk %}">{{ faction.name }}</a>
+    <div class="meta">{{ faction.faction_type }} · {{ faction.alignment }}{% if faction.is_catchall %} · catch-all{% endif %}</div>
+    <p>{{ faction.description|truncatewords:30 }}</p>
+</div>
+{% endfor %}

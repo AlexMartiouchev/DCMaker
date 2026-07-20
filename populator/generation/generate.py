@@ -46,12 +46,20 @@ def generate_location(concept: str) -> GeneratedLocation:
 
 
 def generate_factions(
-    location: GeneratedLocation, num_factions: int = 3
+    location: GeneratedLocation,
+    num_factions: int = 3,
+    hints: str = "",
+    existing: list[str] | None = None,
 ) -> list[GeneratedFaction]:
+    """`existing` is short one-line summaries of factions already at the
+    location, so additions (especially single ones) contrast rather
+    than duplicate."""
     prompt = _prompt("factions").format(
         location_name=location.name,
         location_summary=location.summary,
         num_factions=num_factions,
+        faction_hints=hints or "(none provided)",
+        existing_factions="\n".join(f"- {line}" for line in existing) if existing else "(none yet)",
     )
     return generate(prompt, FactionSet, SYSTEM).factions
 
@@ -75,11 +83,18 @@ def _roster_lines(existing: list[GeneratedCharacter]) -> str:
     )
 
 
+def _other_faction_lines(other_factions: list[str] | None) -> str:
+    if not other_factions:
+        return "(none known)"
+    return "\n".join(f"- {line}" for line in other_factions)
+
+
 def fill_roster(
     location: GeneratedLocation,
     faction: GeneratedFaction,
     slots: list[RankDefinition],
     existing: list[GeneratedCharacter] | None = None,
+    other_factions: list[str] | None = None,
 ) -> list[GeneratedCharacter]:
     """Fill several empty named-character slots in one call (planning
     mode). Mob-tier slots don't belong here — they become archetypes
@@ -97,6 +112,7 @@ def fill_roster(
     prompt = _prompt("roster_batch").format(
         slot_list=slot_list,
         existing_roster=_roster_lines(existing or []),
+        other_factions=_other_faction_lines(other_factions),
         **_faction_context(location, faction),
     )
     return generate(prompt, CharacterSet, SYSTEM).characters
@@ -126,17 +142,21 @@ def generate_character(
     slot: RankDefinition,
     existing: list[GeneratedCharacter] | None = None,
     user_hints: str = "",
+    other_factions: list[str] | None = None,
 ) -> GeneratedCharacter:
     """Fill one slot (the (+) button, a regenerate, or in-game use).
 
     `user_hints` is the DM's typed direction from the card's editable
     fields; empty means the model improvises from context.
+    `other_factions` is short dossier lines on named figures elsewhere
+    at the location, enabling cross-faction relationships.
     """
     prompt = _prompt("roster_single").format(
         rank_title=slot.title,
         rank_tier=slot.tier.value,
         user_hints=user_hints or "(none provided)",
         existing_roster=_roster_lines(existing or []),
+        other_factions=_other_faction_lines(other_factions),
         **_faction_context(location, faction),
     )
     return generate(prompt, GeneratedCharacter, SYSTEM)

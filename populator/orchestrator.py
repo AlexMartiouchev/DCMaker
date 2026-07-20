@@ -43,6 +43,23 @@ def to_generated_faction(faction: Faction) -> GeneratedFaction:
     )
 
 
+def other_faction_dossier(faction: Faction) -> list[str]:
+    """Short lines on named figures in the location's *other* factions,
+    so new characters can carry cross-faction relationships. Named
+    tiers only — mob flavor would dilute the context for no gain."""
+    lines = []
+    others = faction.location.factions.exclude(pk=faction.pk).filter(
+        is_catchall=False
+    )
+    for other in others:
+        for ch in other.characters.exclude(rank_tier=Character.RankTier.MOB):
+            snippet = ch.description.split(".")[0][:120]
+            lines.append(
+                f"{ch.name} — {ch.rank_title} ({ch.rank_tier}) of {other.name}: {snippet}"
+            )
+    return lines
+
+
 def to_generated_characters(faction: Faction) -> list[GeneratedCharacter]:
     """Existing roster as engine context (so new characters don't clash)."""
     return [
