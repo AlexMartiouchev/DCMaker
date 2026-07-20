@@ -2,6 +2,21 @@ from django.conf import settings
 from django.db import models
 
 
+class Campaign(models.Model):
+    """The top-level container a DM owns: one campaign, many locations."""
+
+    name = models.CharField(max_length=100)
+    description = models.TextField(blank=True, default="")
+    owner = models.ForeignKey(
+        settings.AUTH_USER_MODEL,
+        on_delete=models.CASCADE,
+        related_name="campaigns",
+    )
+
+    def __str__(self):
+        return self.name
+
+
 class Location(models.Model):
     name = models.CharField(max_length=50)
     location_type = models.CharField(max_length=50)
@@ -10,8 +25,10 @@ class Location(models.Model):
     party_level = models.IntegerField()
     image = models.ImageField(upload_to="location_images/", null=True, blank=True)
     prompt = models.TextField(null=True, blank=True)
-    user = models.ForeignKey(
-        settings.AUTH_USER_MODEL,
+    # Nullable for now so existing rows survive the migration; tighten
+    # once all locations are assigned to campaigns.
+    campaign = models.ForeignKey(
+        Campaign,
         on_delete=models.CASCADE,
         related_name="locations",
         null=True,
@@ -71,7 +88,3 @@ class Character(models.Model):
 
     def __str__(self):
         return self.name
-
-
-class Demo(models.Model):
-    location = models.ForeignKey(Location, on_delete=models.SET_NULL, null=True)

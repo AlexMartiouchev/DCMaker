@@ -14,11 +14,13 @@ gets one shared sheet for all its copies. --skip-sheets makes cheap
 test runs possible.
 """
 
+from django.contrib.auth import get_user_model
 from django.core.management.base import BaseCommand
 
 from populator import orchestrator
 from populator.generation import generate as engine
 from populator.generation.schemas import RankTier
+from populator.models import Campaign
 
 
 class Command(BaseCommand):
@@ -38,9 +40,20 @@ class Command(BaseCommand):
         concept = options["concept"]
         party_level = options["party_level"]
 
+        # Demo content lands in a campaign owned by the first superuser.
+        owner = get_user_model().objects.filter(is_superuser=True).first()
+        campaign = None
+        if owner:
+            campaign, _ = Campaign.objects.get_or_create(
+                name="Demo Campaign",
+                defaults={"owner": owner, "description": "Generated demo content"},
+            )
+
         self.stdout.write(f"Generating location for: {concept!r} ...")
         gen_location = engine.generate_location(concept)
-        location = orchestrator.save_location(gen_location, party_level=party_level)
+        location = orchestrator.save_location(
+            gen_location, party_level=party_level, campaign=campaign
+        )
         self.stdout.write(
             self.style.SUCCESS(f"  Saved location #{location.pk}: {location.name}")
         )
