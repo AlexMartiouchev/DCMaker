@@ -16,21 +16,7 @@
 </h2>
 <div class="cards">
     {% for character in group.characters %}
-    <div class="card">
-        <a href="#">{{ character.name }}</a>
-        {% if character.combat_sheet.legendary_actions %}<span class="badge legendary">legendary</span>{% endif %}
-        <div class="meta">{{ character.race }} · {{ character.alignment }}{% if character.profession %} · {{ character.profession }}{% endif %}</div>
-        <p>{{ character.description|truncatewords:35 }}</p>
-        {% if character.combat_sheet.stats %}
-        <div class="stats">HP {{ character.combat_sheet.stats.hp }} · AC {{ character.combat_sheet.stats.ac }}</div>
-        {% endif %}
-        {% if character.instances %}
-        <details>
-            <summary>{{ character.instances|length }} at the table</summary>
-            {% for instance in character.instances %}<span class="chip">{{ instance.name }}</span>{% endfor %}
-        </details>
-        {% endif %}
-    </div>
+    {% include "populator/_character_card.html" %}
     {% endfor %}
     {% for _ in group.empty_slots %}
     <div class="card empty">empty slot — generation coming soon</div>

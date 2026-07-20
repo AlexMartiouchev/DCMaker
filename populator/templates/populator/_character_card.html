@@ -1,0 +1,63 @@
+{# One character card. Included by faction_detail; will be the htmx swap target later. #}
+<div class="card character">
+    <div class="cardtop">
+        <div class="portrait">🎭<span>art pending</span></div>
+        <div>
+            <a href="#">{{ character.name }}</a>
+            {% if character.combat_sheet.legendary_actions %}<span class="badge legendary">legendary</span>{% endif %}
+            <div class="meta">
+                {{ character.race }} · {{ character.alignment }}{% if character.profession %} · {{ character.profession }}{% endif %}
+            </div>
+            {% if character.combat_sheet.stats %}
+            <div class="vitals">HP {{ character.combat_sheet.stats.hp }} · AC {{ character.combat_sheet.stats.ac }}</div>
+            {% endif %}
+        </div>
+    </div>
+
+    {% if character.combat_sheet.stats %}
+    <div class="statgrid">
+        <span>STR {{ character.combat_sheet.stats.strength }}</span>
+        <span>DEX {{ character.combat_sheet.stats.dexterity }}</span>
+        <span>CON {{ character.combat_sheet.stats.constitution }}</span>
+        <span>INT {{ character.combat_sheet.stats.intelligence }}</span>
+        <span>WIS {{ character.combat_sheet.stats.wisdom }}</span>
+        <span>CHA {{ character.combat_sheet.stats.charisma }}</span>
+    </div>
+    {% endif %}
+
+    {% if character.combat_sheet.actions or character.combat_sheet.abilities %}
+    <details class="panel">
+        <summary>Actions &amp; abilities</summary>
+        {% for action in character.combat_sheet.actions %}
+        <div class="effect action">
+            <div class="effecthead"><strong>{{ action.name }}</strong><span class="kind">action</span></div>
+            {{ action.description }}
+        </div>
+        {% endfor %}
+        {% for ability in character.combat_sheet.abilities %}
+        <div class="effect ability">
+            <div class="effecthead"><strong>{{ ability.name }}</strong><span class="kind">ability</span></div>
+            {{ ability.description }}
+        </div>
+        {% endfor %}
+        {% for la in character.combat_sheet.legendary_actions %}
+        <div class="effect legendary">
+            <div class="effecthead"><strong>{{ la.name }}</strong><span class="kind">legendary</span></div>
+            {{ la.description }}
+        </div>
+        {% endfor %}
+    </details>
+    {% endif %}
+
+    <details class="panel">
+        <summary>{{ character.description|truncatewords:12 }}</summary>
+        <p>{{ character.description }}</p>
+    </details>
+
+    {% if character.instances %}
+    <details class="panel">
+        <summary>{{ character.instances|length }} at the table</summary>
+        {% for instance in character.instances %}<span class="chip">{{ instance.name }}</span>{% endfor %}
+    </details>
+    {% endif %}
+</div>

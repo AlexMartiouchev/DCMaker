@@ -35,6 +35,26 @@
         .stats { font-size: 0.82rem; color: var(--dim); margin-top: 0.4rem; }
         details { margin-top: 0.4rem; font-size: 0.85rem; }
         details summary { cursor: pointer; color: var(--dim); }
+        .cardtop { display: flex; gap: 0.7rem; }
+        .portrait { flex: 0 0 4rem; height: 4rem; background: var(--bg); border: 1px dashed var(--edge);
+                    border-radius: 6px; display: flex; flex-direction: column; align-items: center;
+                    justify-content: center; font-size: 1.2rem; }
+        .portrait span { font-size: 0.55rem; color: var(--dim); }
+        .vitals { font-weight: bold; font-size: 0.95rem; margin-top: 0.2rem; color: var(--accent); }
+        .statgrid { display: grid; grid-template-columns: repeat(6, 1fr); gap: 0.2rem;
+                    margin-top: 0.5rem; font-size: 0.72rem; color: var(--dim); text-align: center; }
+        .statgrid span { background: var(--bg); border: 1px solid var(--edge); border-radius: 4px; padding: 0.15rem 0; }
+        details.panel { border-top: 1px solid var(--edge); padding-top: 0.35rem; margin-top: 0.55rem; }
+        details.panel p { margin: 0.35rem 0 0; font-size: 0.85rem; }
+        .effect { background: var(--bg); border: 1px solid var(--edge); border-left: 3px solid var(--dim);
+                  border-radius: 5px; padding: 0.45rem 0.6rem; margin-top: 0.45rem; font-size: 0.83rem;
+                  transition: border-color 0.15s; }
+        .effect:hover { border-color: var(--accent); cursor: pointer; }  /* future: click to roll */
+        .effect.action { border-left-color: var(--leadership); }
+        .effect.ability { border-left-color: var(--member); }
+        .effect.legendary { border-left-color: #7a4fb0; }
+        .effecthead { display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 0.15rem; }
+        .effecthead .kind { font-size: 0.68rem; color: var(--dim); text-transform: uppercase; letter-spacing: 0.05em; }
     </style>
 </head>
 <body>
