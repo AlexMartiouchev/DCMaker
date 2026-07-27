@@ -127,8 +127,12 @@ STATIC_URL = "static/"
 
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
-# Where @login_required sends anonymous visitors
+# Where @login_required sends anonymous visitors, and where the auth
+# views send them afterwards (LOGIN_REDIRECT_URL is only used when
+# there is no ?next=, which Django's LoginView honours automatically).
 LOGIN_URL = "login"
+LOGIN_REDIRECT_URL = "campaign_list"
+LOGOUT_REDIRECT_URL = "login"
 
 # Base directory for media files
 MEDIA_ROOT = os.path.join(BASE_DIR, "media")
