@@ -1,16 +1,27 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <title>Register</title>
-</head>
-<body>
-    <div>
-        <h2>Register</h2>
-        <form method="post">
-            {% csrf_token %}
-            {{ form.as_p }}
-            <button type="submit">Register</button>
-        </form>
-    </div>
-</body>
-</html>
+{% extends "populator/base.html" %}
+
+{% block title %}Create an account — DCMaker{% endblock %}
+
+{% block content %}
+<div class="authcard">
+    <h1>Create an account</h1>
+    <p class="sub">Campaigns, locations, factions and characters — all yours alone.</p>
+
+    <form method="post" class="authform">
+        {% csrf_token %}
+        {% if form.non_field_errors %}
+            <p class="formerror">{{ form.non_field_errors|join:" " }}</p>
+        {% endif %}
+        {% for field in form %}
+            <label for="{{ field.id_for_label }}">{{ field.label }}</label>
+            {{ field }}
+            {% if field.help_text %}<div class="hint">{{ field.help_text|safe }}</div>{% endif %}
+            {% if field.errors %}<p class="formerror">{{ field.errors|join:" " }}</p>{% endif %}
+        {% endfor %}
+        <input type="hidden" name="next" value="{{ next }}">
+        <button type="submit">Create account</button>
+    </form>
+
+    <p class="sub">Already registered? <a href="{% url 'login' %}">Sign in</a>.</p>
+</div>
+{% endblock %}
