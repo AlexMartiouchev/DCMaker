@@ -17,6 +17,36 @@ class Campaign(models.Model):
         return self.name
 
 
+class GenerationEvent(models.Model):
+    """One API call: who asked, what for, which model, what it cost.
+
+    Two jobs from one row. It is the ledger the daily cap counts against
+    (playtesters spend real credit), and it is the cost telemetry that
+    answers "what does a full location actually cost?" — which is a
+    pricing question, not just a curiosity, once there are paid tiers.
+    """
+
+    user = models.ForeignKey(
+        settings.AUTH_USER_MODEL,
+        on_delete=models.CASCADE,
+        related_name="generation_events",
+    )
+    created_at = models.DateTimeField(auto_now_add=True)
+    kind = models.CharField(max_length=32)
+    model = models.CharField(max_length=64)
+    input_tokens = models.PositiveIntegerField(default=0)
+    output_tokens = models.PositiveIntegerField(default=0)
+
+    class Meta:
+        # The cap query is always "this user, since a cutoff", so the
+        # composite index matches it exactly.
+        indexes = [models.Index(fields=["user", "created_at"])]
+        ordering = ["-created_at"]
+
+    def __str__(self):
+        return f"{self.user} {self.kind} ({self.model})"
+
+
 class Location(models.Model):
     name = models.CharField(max_length=50)
     location_type = models.CharField(max_length=50)

@@ -8,17 +8,63 @@ Every query filters by the logged-in user's ownership chain, so users
 can only ever see their own campaigns' content.
 """
 
+import logging
+from functools import wraps
+
+from django.core.exceptions import PermissionDenied, SuspiciousOperation
 from django.contrib.auth.decorators import login_required
-from django.http import HttpResponse
+from django.http import Http404, HttpResponse
 from django.shortcuts import get_object_or_404, redirect, render
 from django.template.loader import render_to_string
 from django.urls import reverse
 from django.views.decorators.http import require_POST
 
-from . import orchestrator
+from . import orchestrator, usage
 from .generation import generate as engine
 from .generation.schemas import RankTier
 from .models import Campaign, Character, Faction, Location
+
+logger = logging.getLogger(__name__)
+
+
+def metered(kind):
+    """Wrap a generation view: enforce the daily cap, count the calls, and
+    fail politely.
+
+    htmx swaps nothing on a non-2xx response, so an unhandled exception
+    used to leave the DM staring at a button that had visibly done
+    something and then silently given up. Every failure now comes back as
+    a status plus a plain-text reason, which base.html shows as a toast.
+    """
+
+    def decorator(view):
+        @wraps(view)
+        def wrapper(request, *args, **kwargs):
+            try:
+                with usage.metering(request.user, kind):
+                    return view(request, *args, **kwargs)
+            except usage.GenerationLimitReached as exc:
+                return HttpResponse(str(exc), status=429, content_type="text/plain")
+            except (Http404, PermissionDenied, SuspiciousOperation):
+                # Django's control-flow exceptions are answers, not
+                # failures — swallowing them would turn "not yours" into
+                # "the generator broke", which is both a worse message
+                # and a lie.
+                raise
+            except Exception:
+                # Logged in full for us, summarised for the DM: provider
+                # errors are noisy and often quote internal detail.
+                logger.exception("Generation failed (%s)", kind)
+                return HttpResponse(
+                    "The generator did not answer. Nothing was saved — "
+                    "try again in a moment.",
+                    status=502,
+                    content_type="text/plain",
+                )
+
+        return wrapper
+
+    return decorator
 
 
 @login_required
@@ -106,6 +152,7 @@ def faction_detail(request, pk):
 
 @login_required
 @require_POST
+@metered("roster_batch")
 def generate_roster_batch(request, pk):
     """Fill the faction's whole hierarchy in one go: named characters
     (one batch call), mob archetypes (one call), sheets for everyone.
@@ -187,6 +234,7 @@ def campaign_create(request):
 
 @login_required
 @require_POST
+@metered("location")
 def generate_location_slot(request, pk):
     """htmx endpoint: generate a location from the DM's concept and
     return its card fragment."""
@@ -206,6 +254,7 @@ def generate_location_slot(request, pk):
 
 @login_required
 @require_POST
+@metered("factions")
 def generate_faction_slots(request, pk):
     """htmx endpoint: generate N factions (with hierarchies) for a
     location and return their card fragments. Characters are then
@@ -233,6 +282,7 @@ def generate_faction_slots(request, pk):
 
 @login_required
 @require_POST
+@metered("character")
 def generate_character_slot(request, pk):
     """htmx endpoint: fill one empty slot. Returns a single character
     card fragment that swaps in place of the empty-slot form."""
