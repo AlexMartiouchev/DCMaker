@@ -104,6 +104,16 @@
         .authform .hint, .authform ul { color: var(--dim); font-size: 0.75rem; margin: 0.1rem 0 0; }
         .authform .hint li { margin-left: 1rem; }
         .formerror { color: var(--leadership); font-size: 0.8rem; margin: 0.15rem 0 0; }
+        #toasts { position: fixed; right: 1rem; bottom: 1rem; z-index: 50;
+                  display: flex; flex-direction: column; gap: 0.5rem; max-width: 26rem; }
+        .toast { background: var(--panel); border: 1px solid var(--leadership);
+                 border-left-width: 4px; border-radius: 5px; padding: 0.7rem 0.9rem;
+                 font-size: 0.88rem; box-shadow: 0 4px 14px rgba(0,0,0,0.45);
+                 display: flex; gap: 0.7rem; align-items: flex-start; }
+        .toast button { background: none; border: none; color: var(--dim);
+                        cursor: pointer; font-size: 1rem; line-height: 1; padding: 0;
+                        margin-left: auto; }
+        .toast button:hover { color: var(--text); }
     </style>
 </head>
 <body hx-headers='{"X-CSRFToken": "{{ csrf_token }}"}'>
@@ -124,5 +134,40 @@
         </span>
     </header>
     <main>{% block content %}{% endblock %}</main>
+
+    <div id="toasts" aria-live="polite"></div>
+    <script>
+        // htmx swaps nothing on a non-2xx response, so without this a
+        // failed generation is completely silent: the button un-disables
+        // and the DM has no idea whether anything happened.
+        function toast(message) {
+            const box = document.createElement('div');
+            box.className = 'toast';
+            const text = document.createElement('span');
+            // textContent, not innerHTML — the body is server text and
+            // could contain markup we do not want executed.
+            text.textContent = message;
+            const close = document.createElement('button');
+            close.textContent = '✕';
+            close.setAttribute('aria-label', 'Dismiss');
+            close.onclick = () => box.remove();
+            box.append(text, close);
+            document.getElementById('toasts').append(box);
+            setTimeout(() => box.remove(), 12000);
+        }
+
+        document.body.addEventListener('htmx:responseError', (event) => {
+            const xhr = event.detail.xhr;
+            const body = (xhr.responseText || '').trim();
+            // Django's debug page is HTML and megabytes long; only show
+            // the body when it is the short plain message we sent.
+            const usable = body && body.length < 300 && !body.startsWith('<');
+            toast(usable ? body : `Something went wrong (${xhr.status}). Nothing was saved.`);
+        });
+
+        document.body.addEventListener('htmx:sendError', () => {
+            toast('Could not reach the server. Check your connection and try again.');
+        });
+    </script>
 </body>
 </html>

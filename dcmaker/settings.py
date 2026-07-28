@@ -25,6 +25,21 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = config("SECRET_KEY")
 OPENAI_API_KEY = config("OPENAI_API_KEY")
 
+# Generation requests allowed per user per rolling 24 hours. Counts API
+# calls, not button presses — one "generate full roster" click can be
+# forty round trips, and it is the round trips that cost money. Staff
+# are always exempt (see populator/usage.py).
+#
+# The default of 500 is a runaway guard, not a budget: a full location
+# build is roughly 40-50 calls, so it never inconveniences real use, but
+# it does stop a generation bug looping through an entire OpenAI balance
+# unattended. 0 disables the cap entirely.
+#
+# LOWER THIS BEFORE HANDING THE APP TO PLAYTESTERS — 500 is far too
+# generous for a stranger on Sasha's credit. Around 60 is about one
+# location build per tester per day.
+DAILY_GENERATION_CAP = config("DAILY_GENERATION_CAP", default=500, cast=int)
+
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
