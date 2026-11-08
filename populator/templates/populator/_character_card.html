@@ -56,6 +56,7 @@
     <details class="panel">
         <summary>{{ character.description|truncatewords:12 }}</summary>
         <p>{{ character.description }}</p>
+        {% if character.motivation %}<p class="motivation"><strong>Motivation.</strong> {{ character.motivation }}</p>{% endif %}
     </details>
 
     {% if character.instances %}

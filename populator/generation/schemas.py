@@ -182,6 +182,14 @@ class GeneratedCharacter(BaseModel):
             "pull on. Mob tier: at most 2 sentences of combat-relevant flavor."
         )
     )
+    motivation: str = Field(
+        description=(
+            "What this character wants and why: the drive the DM plays them "
+            "from, distinct from appearance and role. 2-3 sentences: a "
+            "concrete want, what they will do to get it, and what they fear "
+            "losing. Anchor it in the faction or the location."
+        )
+    )
 
 
 class CharacterSet(BaseModel):
@@ -206,6 +214,12 @@ class MobArchetype(BaseModel):
     )
     description: str = Field(
         description="At most 2 sentences of combat-relevant flavor"
+    )
+    motivation: str = Field(
+        description=(
+            "One sentence: why this rank-and-file fights for the faction, "
+            "e.g. pay, fear, faith, debt, loyalty to a single person."
+        )
     )
     instance_names: list[str] = Field(
         description=(
