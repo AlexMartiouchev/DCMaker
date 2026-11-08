@@ -1,6 +1,6 @@
 from django.contrib import admin
 
-from .models import Campaign, Location, Faction, Character, GenerationEvent
+from .models import Campaign, Location, Faction, Character, GenerationEvent, RagDocument
 
 
 @admin.register(Campaign)
@@ -41,3 +41,10 @@ class GenerationEventAdmin(admin.ModelAdmin):
 
     def has_change_permission(self, request, obj=None):
         return False
+
+
+@admin.register(RagDocument)
+class RagDocumentAdmin(admin.ModelAdmin):
+    list_display = ("external_id", "doc_type", "source", "updated_at")
+    list_filter = ("doc_type", "source")
+    search_fields = ("external_id",)

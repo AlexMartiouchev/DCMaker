@@ -69,6 +69,7 @@ def to_generated_characters(faction: Faction) -> list[GeneratedCharacter]:
             alignment=c.alignment,
             rank_title=c.rank_title,
             description=c.description,
+            motivation=c.motivation,
         )
         for c in faction.characters.all()
     ]
@@ -117,6 +118,7 @@ def save_character(faction: Faction, generated: GeneratedCharacter) -> Character
         race=generated.race,
         alignment=generated.alignment.value,
         description=generated.description,
+        motivation=generated.motivation,
         rank_title=generated.rank_title,
         rank_tier=tier_for_title(faction, generated.rank_title),
     )
@@ -131,6 +133,7 @@ def save_mob_archetype(faction: Faction, archetype: MobArchetype) -> Character:
         race=archetype.race,
         alignment=archetype.alignment.value,
         description=archetype.description,
+        motivation=archetype.motivation,
         rank_title=archetype.rank_title,
         rank_tier=Character.RankTier.MOB,
         instances=[{"name": name} for name in archetype.instance_names],

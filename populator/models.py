@@ -99,6 +99,7 @@ class Character(models.Model):
     rank_title = models.CharField(max_length=50, default="")
     name = models.CharField(max_length=50)
     description = models.TextField()
+    motivation = models.TextField(blank=True, default="")
     alignment = models.CharField(max_length=2)
     race = models.CharField(max_length=50)
     profession = models.CharField(max_length=50, null=True)
@@ -118,3 +119,47 @@ class Character(models.Model):
 
     def __str__(self):
         return self.name
+
+
+class RagDocument(models.Model):
+    """A retrieval exemplar or reference block for generation.
+
+    Deliberately outside the ownership chain (campaign -> location ->
+    faction -> character): these rows are shared, app-wide seed data. They
+    live in their own table, never in Location/Faction/Character, so an
+    exemplar can never appear on a DM's page as campaign content.
+
+    `payload` holds the schema-valid body (it validates against the
+    matching class in generation/schemas.py); `metadata` holds the
+    retrieval keys (environment, genre, rank_tier, class_hint, ...), so
+    retrieval is a JSON-key filter such as
+    RagDocument.objects.filter(doc_type="location", metadata__environment="coastal").
+    """
+
+    class DocType(models.TextChoices):
+        LOCATION = "location"
+        FACTION = "faction"
+        CHARACTER = "character"
+        MOB_ARCHETYPE = "mob_archetype"
+        # Whole-block lookups: taxonomy vocabularies, IP guardrails, seed meta.
+        REFERENCE = "reference"
+
+    doc_type = models.CharField(max_length=20, choices=DocType.choices)
+    # Stable id from the seed file (e.g. "loc_coastal"), the upsert key.
+    external_id = models.CharField(max_length=64, unique=True)
+    # "seed" rows are owned by the loader: it may update or prune them.
+    # Anything else (future DM-approved exemplars, say) is never touched.
+    source = models.CharField(max_length=20, default="seed")
+    metadata = models.JSONField(default=dict, blank=True)
+    payload = models.JSONField(default=dict)
+    # Reserved for the indexing step. A JSON list of floats works on
+    # SQLite and Postgres alike; swap for pgvector if retrieval needs it.
+    embedding = models.JSONField(null=True, blank=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+    class Meta:
+        indexes = [models.Index(fields=["doc_type"])]
+        ordering = ["doc_type", "external_id"]
+
+    def __str__(self):
+        return f"{self.doc_type}:{self.external_id}"
